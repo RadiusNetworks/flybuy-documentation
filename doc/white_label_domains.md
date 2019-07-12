@@ -13,4 +13,4 @@ Once this is set up, provide your account rep with the name of the `CNAME` recor
 The white-label domain can also optionally be used to configure iOS Universal Links and Android App Links in your mobile apps if you've decided to integrate the FlyBuy SDK into your mobile app instead of using the FlyBuy mobile apps for your curbside solution.  Links to the instructions for getting this set up for the different platforms are below:
 
 - [iOS](https://github.com/RadiusNetworks/flybuy-ios/blob/master/doc/universal_links.md)
-- Android (Coming Soon)
+- [Android](https://github.com/RadiusNetworks/flybuy-android/blob/master/doc/app_links.md)
