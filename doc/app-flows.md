@@ -8,8 +8,8 @@ iOS
 - [universal links][3]
 
 Android
-- [orders][3]
-- [customer][4]
+- [orders][4]
+- [customer][5]
 - [app links][6]
 
 [1]: https://github.com/RadiusNetworks/flybuy-ios/blob/master/doc/orders.md
