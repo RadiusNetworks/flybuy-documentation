@@ -13,6 +13,7 @@ pickup and staff tooling with other systems.
 ## Documentation
 
 - [Orders](/doc/api_v1_orders.md)
+- [Events](/doc/api_v1_events.md)
 - [Webhooks](/doc/webhooks.md)
 - [Android SDK](https://github.com/RadiusNetworks/flybuy-android)
 - [iOS SDK](https://github.com/RadiusNetworks/flybuy-ios)
