@@ -1,8 +1,7 @@
 # Orders API
 
 - [Getting An Order](#getting-an-order)
-- [Creating A Redeemable Order](#creating-a-redeemable-order)
-- [Creating An Order For A Customer](#creating-an-order-for-a-customer)
+- [Creating An Order](#creating-an-order)
 - [Updating An Order](#updating-an-order)
 
 This describes the FlyBuy Orders API v1. If you have any problems or
@@ -32,13 +31,13 @@ Content-Type: application/json
 
 ## <span id="getting-an-order">Getting An Order</span>
 
-```
+```http
 GET /api/v1/orders/1
 ```
 
-### Response <a href="#getting-an-order-response" class="header-link"></a>
+### <span id="getting-an-order-response">Response</span>
 
-```
+```http
 Status: 200 OK
 Content-Type: application/json; charset=utf-8
 ```
@@ -52,39 +51,44 @@ Content-Type: application/json; charset=utf-8
     "eta_at": null,
     "partner_identifier": null,
     "state": "created",
-    "redemption_code": "WSNF3H",
-    "created_at": "2019-03-19T00:53:40.171Z",
-    "updated_at": "2019-03-19T00:53:40.171Z",
+    "redemption_code": "SHTBHF",
+    "created_at": "2019-12-17T19:57:03.091Z",
+    "updated_at": "2019-12-17T19:57:03.091Z",
     "area_name": null,
     "customer_id": null,
     "site_id": 1,
-    "site_partner_identifier": null,
+    "site_partner_identifier": "site1",
     "customer_name": null,
     "customer_car_type": null,
     "customer_car_color": null,
     "customer_license_plate": null,
-    "pickup_window": "2019-03-18T22:53:40.099Z/2019-03-18T23:53:40.099Z"
+    "pickup_window": "2019-12-17T17:57:03.089Z/2019-12-17T18:57:03.089Z"
   },
   "included": [
     {
       "type": "site",
       "id": 1,
+      "partner_identifier": "site1",
       "name": "A Site",
       "full_address": "123 Any Street, Any Locality, Any Region, 12345",
       "street_address": "123 Any Street",
       "locality": "Any Locality",
       "region": "Any Region",
       "country": "Any Country",
+      "postal_code": "12345",
       "latitude": "0.0",
-      "longitude": "0.0"
+      "longitude": "0.0",
+      "instructions": null,
+      "description": null,
+      "phone": "555-367-8309"
     }
   ]
 }
 ```
 
-### Curl Example <a href="#getting-an-order-curl-example" class="header-link"></a>
+### <span id="getting-an-order-curl-example">Curl Example</span>
 
-```
+```sh
 curl http://www.example.com/api/v1/orders/1?include=site \
   -is \
   -X GET \
@@ -93,17 +97,45 @@ curl http://www.example.com/api/v1/orders/1?include=site \
   -H 'Authorization: Token="0123456789abcdef"'
 ```
 
-## <span id="creating-a-redeemable-order">Creating A Redeemable Order</span>
+## <span id="creating-an-order">Creating An Order</span>
 
-```
+```http
 POST /api/v1/orders
 ```
 
-Create an order
+### <span id="creating-an-order-parameters">Parameters</span>
 
-### Response <a href="#creating-a-redeemable-order-response" class="header-link"></a>
+**Must** be sent under a top-level `data` parameter.
 
+| **Name** | **Type** | **Description** |
+| -------- | -------- | --------------- |
+| `site_id` | `integer` | **Required.** Must reference a site in a project you have access to. |
+| `customer_name` | `string` | The customer's name |
+| `customer_token` | `string` | If given a customer token the order will be linked with their account, otherwise the customer will be required to redeem the order via a link supplied by the system. |
+| `customer_phone` | `string` | The customer's phone number |
+| `customer_car_color` | `string` | The color of the customer's car. |
+| `customer_car_type` | `string` | The customer's car type |
+| `customer_license_plate` | `string` | The customer's license plate |
+| `partner_identifier` | `string` | An identifier used to track this order in another system. |
+| `push_token` | `string` | A token used to send push notifications to the user's mobile device |
+| `pickup_window` | `string` | When the order should be picked up. It can either be a date/time in [ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601), or a [date/time interval](https://en.wikipedia.org/wiki/ISO_8601#Time_intervals) of the format `"start/end"` |
+
+### <span id="creating-an-order-example">Example</span>
+
+```json
+{
+  "data": {
+    "site_id": 1,
+    "partner_identifier": "123XYZ",
+    "customer_name": "William Adama",
+    "pickup_window": "2019-03-25T17:57:34.603Z"
+  }
+}
 ```
+
+### <span id="creating-an-order-response">Response</span>
+
+```http
 Status: 201 Created
 Content-Type: application/json; charset=utf-8
 ```
@@ -115,20 +147,20 @@ Content-Type: application/json; charset=utf-8
     "arrived_at": null,
     "customer_state": "created",
     "eta_at": null,
-    "partner_identifier": null,
+    "partner_identifier": "123XYZ",
     "state": "created",
-    "redemption_code": "GCJMCZ",
-    "created_at": "2019-03-19T00:53:40.485Z",
-    "updated_at": "2019-03-19T00:53:40.485Z",
+    "redemption_code": "N6CNEQ",
+    "created_at": "2019-12-17T19:57:03.228Z",
+    "updated_at": "2019-12-17T19:57:03.228Z",
     "area_name": null,
     "customer_id": null,
     "site_id": 1,
-    "site_partner_identifier": null,
-    "customer_name": null,
+    "site_partner_identifier": "site1",
+    "customer_name": "William Adama",
     "customer_car_type": null,
     "customer_car_color": null,
     "customer_license_plate": null,
-    "pickup_window": null
+    "pickup_window": "2019-03-25T17:57:34.603Z/2019-03-25T17:57:34.603Z"
   },
   "included": [
 
@@ -136,66 +168,9 @@ Content-Type: application/json; charset=utf-8
 }
 ```
 
-### Curl Example <a href="#creating-a-redeemable-order-curl-example" class="header-link"></a>
+### <span id="creating-an-order-curl-example">Curl Example</span>
 
-```
-curl http://www.example.com/api/v1/orders \
-  -is \
-  -X POST \
-  -H 'Accept: application/json' \
-  -H 'Content-Type: application/json' \
-  -H 'Authorization: Token="0123456789abcdef"' \
-  -d '{
-    "data": {
-      "site_id": 1
-    }
-  }'
-```
-
-## <span id="creating-an-order-for-a-customer">Creating An Order For A Customer</span>
-
-```
-POST /api/v1/orders
-```
-
-### Response <a href="#creating-an-order-for-a-customer-response" class="header-link"></a>
-
-```
-Status: 201 Created
-Content-Type: application/json; charset=utf-8
-```
-```json
-{
-  "data": {
-    "type": "order",
-    "id": 1,
-    "arrived_at": null,
-    "customer_state": "created",
-    "eta_at": null,
-    "partner_identifier": null,
-    "state": "created",
-    "redemption_code": null,
-    "created_at": "2019-03-19T00:53:40.749Z",
-    "updated_at": "2019-03-19T00:53:40.749Z",
-    "area_name": null,
-    "customer_id": 1,
-    "site_id": 1,
-    "site_partner_identifier": null,
-    "customer_name": "Any Customer",
-    "customer_car_type": "Sedan",
-    "customer_car_color": "Blue",
-    "customer_license_plate": "ABC-123",
-    "pickup_window": null
-  },
-  "included": [
-
-  ]
-}
-```
-
-### Curl Example <a href="#creating-an-order-for-a-customer-curl-example" class="header-link"></a>
-
-```
+```sh
 curl http://www.example.com/api/v1/orders \
   -is \
   -X POST \
@@ -205,20 +180,49 @@ curl http://www.example.com/api/v1/orders \
   -d '{
     "data": {
       "site_id": 1,
-      "customer_token": "K1S8gV8fkXp4iTAumXAGivF5"
+      "partner_identifier": "123XYZ",
+      "customer_name": "William Adama",
+      "pickup_window": "2019-03-25T17:57:34.603Z"
     }
   }'
 ```
 
 ## <span id="updating-an-order">Updating An Order</span>
 
-```
+```http
 PUT /api/v1/orders/1
 ```
 
-### Response <a href="#updating-an-order-response" class="header-link"></a>
+### <span id="updating-an-order-parameters">Parameters</span>
 
+**Must** be sent under a top-level `data` parameter.
+
+| **Name** | **Type** | **Description** |
+| -------- | -------- | --------------- |
+| `site_id` | `integer` | **Required.** Must reference a site in a project you have access to. |
+| `customer_name` | `string` | The customer's name |
+| `customer_phone` | `string` | The customer's phone number |
+| `customer_car_color` | `string` | The color of the customer's car. |
+| `customer_car_type` | `string` | The customer's car type |
+| `customer_license_plate` | `string` | The customer's license plate |
+| `partner_identifier` | `string` | An identifier used to track this order in another system. |
+| `push_token` | `string` | A token used to send push notifications to the user's mobile device |
+| `pickup_window` | `string` | When the order should be picked up. It can either be a date/time in [ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601), or a [date/time interval](https://en.wikipedia.org/wiki/ISO_8601#Time_intervals) of the format `"start/end"` |
+
+### <span id="updating-an-order-example">Example</span>
+
+```json
+{
+  "data": {
+    "site_id": 1,
+    "pickup_window": "2019-12-17T17:57:03.290Z/2019-12-17T18:57:03.290Z"
+  }
+}
 ```
+
+### <span id="updating-an-order-response">Response</span>
+
+```http
 Status: 200 OK
 Content-Type: application/json; charset=utf-8
 ```
@@ -232,18 +236,18 @@ Content-Type: application/json; charset=utf-8
     "eta_at": null,
     "partner_identifier": null,
     "state": "created",
-    "redemption_code": "5WXCLQ",
-    "created_at": "2019-03-19T00:53:40.902Z",
-    "updated_at": "2019-03-19T00:53:40.929Z",
+    "redemption_code": "I9HS3H",
+    "created_at": "2019-12-17T19:57:03.314Z",
+    "updated_at": "2019-12-17T19:57:03.326Z",
     "area_name": null,
     "customer_id": null,
     "site_id": 1,
-    "site_partner_identifier": null,
+    "site_partner_identifier": "site1",
     "customer_name": null,
     "customer_car_type": null,
     "customer_car_color": null,
     "customer_license_plate": null,
-    "pickup_window": "2019-03-18T22:53:40.866Z/2019-03-18T23:53:40.866Z"
+    "pickup_window": "2019-12-17T17:57:03.290Z/2019-12-17T18:57:03.290Z"
   },
   "included": [
 
@@ -251,9 +255,9 @@ Content-Type: application/json; charset=utf-8
 }
 ```
 
-### Curl Example <a href="#updating-an-order-curl-example" class="header-link"></a>
+### <span id="updating-an-order-curl-example">Curl Example</span>
 
-```
+```sh
 curl http://www.example.com/api/v1/orders/1 \
   -is \
   -X PUT \
@@ -263,7 +267,7 @@ curl http://www.example.com/api/v1/orders/1 \
   -d '{
     "data": {
       "site_id": 1,
-      "pickup_window": "2019-03-18T22:53:40.866Z/2019-03-18T23:53:40.866Z"
+      "pickup_window": "2019-12-17T17:57:03.290Z/2019-12-17T18:57:03.290Z"
     }
   }'
 ```
