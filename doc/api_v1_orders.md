@@ -107,18 +107,18 @@ POST /api/v1/orders
 
 **Must** be sent under a top-level `data` parameter.
 
-| **Name** | **Type** | **Description** |
-| -------- | -------- | --------------- |
-| `site_id` | `integer` | **Required.** Must reference a site in a project you have access to. |
-| `customer_name` | `string` | The customer's name |
-| `customer_token` | `string` | If given a customer token the order will be linked with their account, otherwise the customer will be required to redeem the order via a link supplied by the system. |
-| `customer_phone` | `string` | The customer's phone number |
-| `customer_car_color` | `string` | The color of the customer's car. |
-| `customer_car_type` | `string` | The customer's car type |
-| `customer_license_plate` | `string` | The customer's license plate |
-| `partner_identifier` | `string` | An identifier used to track this order in another system. |
-| `push_token` | `string` | A token used to send push notifications to the user's mobile device |
-| `pickup_window` | `string` | When the order should be picked up. It can either be a date/time in [ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601), or a [date/time interval](https://en.wikipedia.org/wiki/ISO_8601#Time_intervals) of the format `"start/end"` |
+| **Name** | **Type** | **Description** | **Required** |
+| -------- | -------- | --------------- | ----- |
+| `site_id` | `integer` | Must reference a site in a project you have access to. | **Required** |
+| `customer_name` | `string` | The customer's name | _Optional_ |
+| `customer_token` | `string` | If given a customer token the order will be linked with their account, otherwise the customer will be required to redeem the order via a link supplied by the system. | _Optional_ |
+| `customer_phone` | `string` | The customer's phone number | _Optional_ |
+| `customer_car_color` | `string` | The color of the customer's car. | _Optional_ |
+| `customer_car_type` | `string` | The customer's car type | _Optional_ |
+| `customer_license_plate` | `string` | The customer's license plate | _Optional_ |
+| `partner_identifier` | `string` | An identifier used to track this order in another system. | _Optional_ |
+| `push_token` | `string` | A token used to send push notifications to the user's mobile device | _Optional_ |
+| `pickup_window` | `string` | When the order should be picked up. It can either be a date/time in [ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601), or a [date/time interval](https://en.wikipedia.org/wiki/ISO_8601#Time_intervals) of the format `"start/end"` | _Optional_ |
 
 ### <span id="creating-an-order-example">Example</span>
 
@@ -197,17 +197,17 @@ PUT /api/v1/orders/1
 
 **Must** be sent under a top-level `data` parameter.
 
-| **Name** | **Type** | **Description** |
-| -------- | -------- | --------------- |
-| `site_id` | `integer` | **Required.** Must reference a site in a project you have access to. |
-| `customer_name` | `string` | The customer's name |
-| `customer_phone` | `string` | The customer's phone number |
-| `customer_car_color` | `string` | The color of the customer's car. |
-| `customer_car_type` | `string` | The customer's car type |
-| `customer_license_plate` | `string` | The customer's license plate |
-| `partner_identifier` | `string` | An identifier used to track this order in another system. |
-| `push_token` | `string` | A token used to send push notifications to the user's mobile device |
-| `pickup_window` | `string` | When the order should be picked up. It can either be a date/time in [ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601), or a [date/time interval](https://en.wikipedia.org/wiki/ISO_8601#Time_intervals) of the format `"start/end"` |
+| **Name** | **Type** | **Description** | **Required** |
+| -------- | -------- | --------------- | ------------ |
+| `site_id` | `integer` | Must reference a site in a project you have access to. | **Required** |
+| `customer_name` | `string` | The customer's name | _Optional_ |
+| `customer_phone` | `string` | The customer's phone number | _Optional_ |
+| `customer_car_color` | `string` | The color of the customer's car. | _Optional_ |
+| `customer_car_type` | `string` | The customer's car type | _Optional_ |
+| `customer_license_plate` | `string` | The customer's license plate | _Optional_ |
+| `partner_identifier` | `string` | An identifier used to track this order in another system. | _Optional_ |
+| `push_token` | `string` | A token used to send push notifications to the user's mobile device | _Optional_ |
+| `pickup_window` | `string` | When the order should be picked up. It can either be a date/time in [ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601), or a [date/time interval](https://en.wikipedia.org/wiki/ISO_8601#Time_intervals) of the format `"start/end"` | _Optional_ |
 
 ### <span id="updating-an-order-example">Example</span>
 
@@ -271,3 +271,4 @@ curl http://www.example.com/api/v1/orders/1 \
     }
   }'
 ```
+
