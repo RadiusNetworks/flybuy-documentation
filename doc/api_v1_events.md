@@ -2,6 +2,7 @@
 
 - [Adding A State Change Event](#adding-a-state-change-event)
 - [Adding A Location Update Event](#adding-a-location-update-event)
+- [Adding A Customer Rating Event](#adding-a-customer-rating-event)
 - [Adding An Event To An Order That Is No Longer Active](#adding-an-event-to-an-order-that-is-no-longer-active)
 
 This describes the FlyBuy Events API v1. If you have any problems or
@@ -69,7 +70,7 @@ Content-Type: application/json
 ### <span id="adding-a-state-change-event-curl-example">Curl Example</span>
 
 ```sh
-curl http://www.example.com/api/v1/events \
+curl http://flybuy.radiusnetworks.com/api/v1/events \
   -is \
   -X POST \
   -H 'Accept: application/json' \
@@ -129,7 +130,7 @@ Content-Type: application/json
 ### <span id="adding-a-location-update-event-curl-example">Curl Example</span>
 
 ```sh
-curl http://www.example.com/api/v1/events \
+curl http://flybuy.radiusnetworks.com/api/v1/events \
   -is \
   -X POST \
   -H 'Accept: application/json' \
@@ -143,6 +144,62 @@ curl http://www.example.com/api/v1/events \
       "latitude": 38.903783196923044,
       "accuracy": 8,
       "speed": 0.5
+    }
+  }'
+```
+
+## <span id="adding-a-customer-rating-event">Adding A Customer Rating Event</span>
+
+```http
+POST /api/v1/events
+```
+
+### <span id="adding-a-customer-rating-event-parameters">Parameters</span>
+
+**Must** be sent under a top-level `data` parameter. The order must be **completed** to create a customer rating event (either customer state or order state).
+
+| **Name** | **Type** | **Description** |
+| -------- | -------- | --------------- |
+| `order_id` | `integer` | **Required.** Must reference an existing order. |
+| `event_type` | `string` | **Required.** Must be `"customer_rating"`. |
+| `customer_rating_value` | `integer` | The customer's star rating of the order (1-5). |
+| `customer_rating_comments` | `string` | Any feedback comments from the customer about the order |
+
+### <span id="adding-a-customer-rating-event-example">Example</span>
+
+```json
+{
+  "data": {
+    "order_id": 1,
+    "event_type": "customer_rating",
+    "customer_rating_value": 5,
+    "customer_rating_comments": "Comments go here"
+  }
+}
+```
+
+### <span id="adding-a-customer-rating-event-response">Response</span>
+
+```http
+Status: 200 OK
+Content-Type: application/json
+```
+
+### <span id="adding-a-customer-rating-event-curl-example">Curl Example</span>
+
+```sh
+curl http://flybuy.radiusnetworks.com/api/v1/events \
+  -is \
+  -X POST \
+  -H 'Accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -H 'Authorization: Token="0123456789abcdef"' \
+  -d '{
+    "data": {
+      "order_id": 1,
+      "event_type": "customer_rating",
+      "customer_rating_value": 5,
+      "customer_rating_comments": "Comments go here"
     }
   }'
 ```
@@ -168,7 +225,7 @@ Content-Type: application/json
 ### <span id="adding-an-event-to-an-order-that-is-no-longer-active-curl-example">Curl Example</span>
 
 ```sh
-curl http://www.example.com/api/v1/events \
+curl http://flybuy.radiusnetworks.com/api/v1/events \
   -is \
   -X POST \
   -H 'Accept: application/json' \

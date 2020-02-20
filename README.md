@@ -12,8 +12,8 @@ pickup and staff tooling with other systems.
 
 ## Documentation
 
-- [Orders](/doc/api_v1_orders.md)
-- [Events](/doc/api_v1_events.md)
+- [Orders API](/doc/api_v1_orders.md)
+- [Events API](/doc/api_v1_events.md)
 - [Webhooks](/doc/webhooks.md)
 - [Android SDK](https://github.com/RadiusNetworks/flybuy-android)
 - [iOS SDK](https://github.com/RadiusNetworks/flybuy-ios)
@@ -33,7 +33,7 @@ replicate the issue. This should include a code sample demonstrating the issue, 
 
 ## License
 
-Copyright (c) 2019 by Radius Networks
+Copyright (c) 2020 by Radius Networks
 
 http://www.radiusnetworks.com
 
@@ -44,7 +44,7 @@ of service][5]
 
 [1]: https://flybuy.radiusnetworks.com/
 [2]: https://www.radiusnetworks.com/
-[3]: https://radiusnetworks.zendesk.com/
+[3]: https://support.radiusnetworks.com/
 [4]: https://github.com/RadiusNetworks/flybuy-documentation/issues/new
 [5]: https://www.radiusnetworks.com/terms-of-service
 
