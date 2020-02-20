@@ -45,15 +45,17 @@ Content-Type: application/json; charset=utf-8
 {
   "data": {
     "type": "order",
+    "order_id": 1,
+    "order_state": "created",
     "id": 1,
     "arrived_at": null,
     "customer_state": "created",
     "eta_at": null,
     "partner_identifier": null,
     "state": "created",
-    "redemption_code": "SHTBHF",
-    "created_at": "2019-12-17T19:57:03.091Z",
-    "updated_at": "2019-12-17T19:57:03.091Z",
+    "redemption_code": "31S4VF",
+    "created_at": "2020-02-20T17:23:39.708Z",
+    "updated_at": "2020-02-20T17:23:39.708Z",
     "area_name": null,
     "customer_id": null,
     "site_id": 1,
@@ -62,7 +64,10 @@ Content-Type: application/json; charset=utf-8
     "customer_car_type": null,
     "customer_car_color": null,
     "customer_license_plate": null,
-    "pickup_window": "2019-12-17T17:57:03.089Z/2019-12-17T18:57:03.089Z"
+    "customer_rating_value": null,
+    "customer_rating_comments": null,
+    "pickup_window": "2020-02-20T15:23:39.706Z/2020-02-20T16:23:39.706Z",
+    "push_token": null
   },
   "included": [
     {
@@ -89,7 +94,7 @@ Content-Type: application/json; charset=utf-8
 ### <span id="getting-an-order-curl-example">Curl Example</span>
 
 ```sh
-curl http://www.example.com/api/v1/orders/1?include=site \
+curl http://flybuy.radiusnetworks.com/api/v1/orders/1?include=site \
   -is \
   -X GET \
   -H 'Accept: application/json' \
@@ -110,15 +115,15 @@ POST /api/v1/orders
 | **Name** | **Type** | **Description** |
 | -------- | -------- | --------------- |
 | `site_id` | `integer` | **Required.** Must reference a site in a project you have access to. |
-| `customer_name` | `string` | The customer's name |
-| `customer_token` | `string` | If given a customer token the order will be linked with their account, otherwise the customer will be required to redeem the order via a link supplied by the system. |
-| `customer_phone` | `string` | The customer's phone number |
-| `customer_car_color` | `string` | The color of the customer's car. |
-| `customer_car_type` | `string` | The customer's car type |
-| `customer_license_plate` | `string` | The customer's license plate |
-| `partner_identifier` | `string` | An identifier used to track this order in another system. |
-| `push_token` | `string` | A token used to send push notifications to the user's mobile device |
-| `pickup_window` | `string` | When the order should be picked up. It can either be a date/time in [ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601), or a [date/time interval](https://en.wikipedia.org/wiki/ISO_8601#Time_intervals) of the format `"start/end"` |
+| `customer_name` | `string` | _Optional._ The customer's name |
+| `customer_token` | `string` | _Optional._ If given a customer token the order will be linked with their account, otherwise the customer will be required to redeem the order via a link supplied by the system. |
+| `customer_phone` | `string` | _Optional._ The customer's phone number. |
+| `customer_car_color` | `string` | _Optional._ The color of the customer's car. |
+| `customer_car_type` | `string` | _Optional._ The customer's car type |
+| `customer_license_plate` | `string` | _Optional._ The customer's license plate |
+| `partner_identifier` | `string` | _Optional._ An identifier used to track this order in another system. |
+| `push_token` | `string` | _Optional._ A token used to send push notifications to the user's mobile device |
+| `pickup_window` | `string` | _Optional._ When the order should be picked up. It can either be a date/time in [ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601), or a [date/time interval](https://en.wikipedia.org/wiki/ISO_8601#Time_intervals) of the format `"start/end"` |
 
 ### <span id="creating-an-order-example">Example</span>
 
@@ -143,15 +148,17 @@ Content-Type: application/json; charset=utf-8
 {
   "data": {
     "type": "order",
+    "order_id": 1,
+    "order_state": "created",
     "id": 1,
     "arrived_at": null,
     "customer_state": "created",
     "eta_at": null,
     "partner_identifier": "123XYZ",
     "state": "created",
-    "redemption_code": "N6CNEQ",
-    "created_at": "2019-12-17T19:57:03.228Z",
-    "updated_at": "2019-12-17T19:57:03.228Z",
+    "redemption_code": "RRMFJF",
+    "created_at": "2020-02-20T17:23:39.891Z",
+    "updated_at": "2020-02-20T17:23:39.891Z",
     "area_name": null,
     "customer_id": null,
     "site_id": 1,
@@ -160,7 +167,10 @@ Content-Type: application/json; charset=utf-8
     "customer_car_type": null,
     "customer_car_color": null,
     "customer_license_plate": null,
-    "pickup_window": "2019-03-25T17:57:34.603Z/2019-03-25T17:57:34.603Z"
+    "customer_rating_value": null,
+    "customer_rating_comments": null,
+    "pickup_window": "2019-03-25T17:57:34.603Z/2019-03-25T17:57:34.603Z",
+    "push_token": null
   },
   "included": [
 
@@ -171,7 +181,7 @@ Content-Type: application/json; charset=utf-8
 ### <span id="creating-an-order-curl-example">Curl Example</span>
 
 ```sh
-curl http://www.example.com/api/v1/orders \
+curl http://flybuy.radiusnetworks.com/api/v1/orders \
   -is \
   -X POST \
   -H 'Accept: application/json' \
@@ -200,14 +210,14 @@ PUT /api/v1/orders/1
 | **Name** | **Type** | **Description** |
 | -------- | -------- | --------------- |
 | `site_id` | `integer` | **Required.** Must reference a site in a project you have access to. |
-| `customer_name` | `string` | The customer's name |
-| `customer_phone` | `string` | The customer's phone number |
-| `customer_car_color` | `string` | The color of the customer's car. |
-| `customer_car_type` | `string` | The customer's car type |
-| `customer_license_plate` | `string` | The customer's license plate |
-| `partner_identifier` | `string` | An identifier used to track this order in another system. |
-| `push_token` | `string` | A token used to send push notifications to the user's mobile device |
-| `pickup_window` | `string` | When the order should be picked up. It can either be a date/time in [ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601), or a [date/time interval](https://en.wikipedia.org/wiki/ISO_8601#Time_intervals) of the format `"start/end"` |
+| `customer_name` | `string` | _Optional._ The customer's name |
+| `customer_phone` | `string` | _Optional._ The customer's phone number. |
+| `customer_car_color` | `string` | _Optional._ The color of the customer's car. |
+| `customer_car_type` | `string` | _Optional._ The customer's car type |
+| `customer_license_plate` | `string` | _Optional._ The customer's license plate |
+| `partner_identifier` | `string` | _Optional._ An identifier used to track this order in another system. |
+| `push_token` | `string` | _Optional._ A token used to send push notifications to the user's mobile device |
+| `pickup_window` | `string` | _Optional._ When the order should be picked up. It can either be a date/time in [ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601), or a [date/time interval](https://en.wikipedia.org/wiki/ISO_8601#Time_intervals) of the format `"start/end"` |
 
 ### <span id="updating-an-order-example">Example</span>
 
@@ -215,7 +225,7 @@ PUT /api/v1/orders/1
 {
   "data": {
     "site_id": 1,
-    "pickup_window": "2019-12-17T17:57:03.290Z/2019-12-17T18:57:03.290Z"
+    "pickup_window": "2020-02-20T15:23:39.961Z/2020-02-20T16:23:39.961Z"
   }
 }
 ```
@@ -230,15 +240,17 @@ Content-Type: application/json; charset=utf-8
 {
   "data": {
     "type": "order",
+    "order_id": 1,
+    "order_state": "created",
     "id": 1,
     "arrived_at": null,
     "customer_state": "created",
     "eta_at": null,
     "partner_identifier": null,
     "state": "created",
-    "redemption_code": "I9HS3H",
-    "created_at": "2019-12-17T19:57:03.314Z",
-    "updated_at": "2019-12-17T19:57:03.326Z",
+    "redemption_code": "UGZFJJ",
+    "created_at": "2020-02-20T17:23:40.001Z",
+    "updated_at": "2020-02-20T17:23:40.019Z",
     "area_name": null,
     "customer_id": null,
     "site_id": 1,
@@ -247,7 +259,10 @@ Content-Type: application/json; charset=utf-8
     "customer_car_type": null,
     "customer_car_color": null,
     "customer_license_plate": null,
-    "pickup_window": "2019-12-17T17:57:03.290Z/2019-12-17T18:57:03.290Z"
+    "customer_rating_value": null,
+    "customer_rating_comments": null,
+    "pickup_window": "2020-02-20T15:23:39.961Z/2020-02-20T16:23:39.961Z",
+    "push_token": null
   },
   "included": [
 
@@ -258,7 +273,7 @@ Content-Type: application/json; charset=utf-8
 ### <span id="updating-an-order-curl-example">Curl Example</span>
 
 ```sh
-curl http://www.example.com/api/v1/orders/1 \
+curl http://flybuy.radiusnetworks.com/api/v1/orders/1 \
   -is \
   -X PUT \
   -H 'Accept: application/json' \
@@ -267,7 +282,7 @@ curl http://www.example.com/api/v1/orders/1 \
   -d '{
     "data": {
       "site_id": 1,
-      "pickup_window": "2019-12-17T17:57:03.290Z/2019-12-17T18:57:03.290Z"
+      "pickup_window": "2020-02-20T15:23:39.961Z/2020-02-20T16:23:39.961Z"
     }
   }'
 ```
