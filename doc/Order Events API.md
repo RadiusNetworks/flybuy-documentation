@@ -1,4 +1,4 @@
-# Events API
+# Order Events API
 
 - [Adding A State Change Event](#adding-a-state-change-event)
 - [Adding A Location Update Event](#adding-a-location-update-event)
