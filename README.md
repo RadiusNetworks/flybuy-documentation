@@ -17,9 +17,9 @@ pickup and staff tooling with other systems.
 - [iOS SDK](https://github.com/RadiusNetworks/flybuy-ios)
 - [Orders API](/doc/Orders%20API.md) - Create, update, and view FlyBuy orders
 - [Order Events API](/doc/Order%20Events%20API.md) - Update FlyBuy orders by creating an order  event
-- [Webhooks](/doc/Webhooks.md) - Subscribe to FlyBuy webhooks to receive event-driven updates about your orders
+- [FlyBuy Webhooks](/doc/FlyBuy%20Webhooks.md) - Subscribe to FlyBuy webhooks to receive event-driven updates about your orders
 - [White-Label Domains](/doc/White-Label%20Domains.md)
-- [Custom Partner Integrations](/doc/Custom%20Partner%20Integrations.md) - Send FlyBuy webhooks or APIs to provide order information
+- [Custom Partner Integrations](/doc/Custom%20Partner%20Integrations.md) - FlyBuy can consume webhooks or utilize APIs to import orders from your system
 
 ## Issues
 
