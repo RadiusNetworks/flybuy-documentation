@@ -6,24 +6,27 @@ pickup and staff tooling with other systems.
 
 ## Resources
 
-  - [FlyBuy Portal](https://flybuy.radiusnetworks.com/projects)
-  - [Radius Accounts](https://account.radiusnetworks.com)
-  - [Radius Teams](https://account.radiusnetworks.com/teams)
+  - [FlyBuy Portal][6]
+  - [Radius Accounts][7]
+  - [Radius Teams][8]
 
 ## Documentation
 
-- [App Flows](/doc/App%20Flows.md) - General information about mobile app flow
-- [Android SDK](https://github.com/RadiusNetworks/flybuy-android)
-- [iOS SDK](https://github.com/RadiusNetworks/flybuy-ios)
-- [Orders API](/doc/Orders%20API.md) - Create, update, and view FlyBuy orders
-- [Order Events API](/doc/Order%20Events%20API.md) - Update FlyBuy orders by creating an order  event
-- [FlyBuy Webhooks](/doc/FlyBuy%20Webhooks.md) - Subscribe to FlyBuy webhooks to receive event-driven updates about your orders
-- [White-Label Domains](/doc/White-Label%20Domains.md)
-- [Custom Partner Integrations](/doc/Custom%20Partner%20Integrations.md) - FlyBuy can consume webhooks or utilize APIs to import orders from your system
+- [App Flows][9] - General information about mobile app flow
+- [Android SDK][10]
+- [iOS SDK][11]
+- [Orders API][12] - Create, update, and view FlyBuy orders
+- [Order Events API][13] - Update FlyBuy orders by creating an order  event
+- [FlyBuy Webhooks][14] - Subscribe to FlyBuy webhooks to receive event-driven
+  updates about your orders
+- [White-Label Domains][15]
+- [Custom Partner Integrations][16] - FlyBuy can consume webhooks or utilize
+  APIs to import orders from your system
 
 ## Issues
 
-For general service questions and help, consult the Radius Networks [support knowledge base][3].
+For general service questions and help, consult the Radius Networks [support
+knowledge base][3].
 
 If you've found a problem in this library, perform a search under [Issues][4]
 in case it has already been reported. If you do not find any issue addressing
@@ -31,7 +34,8 @@ it, feel free to [open a new one][4].
 
 Your issue report should contain a title and a clear description of the issue
 at a minimum. Please provide as much relevant information as possible to
-replicate the issue. This should include a code sample demonstrating the issue and any relevant client information.
+replicate the issue. This should include a code sample demonstrating the issue
+and any relevant client information.
 
 ## License
 
@@ -49,3 +53,14 @@ of service][5]
 [3]: https://support.radiusnetworks.com/
 [4]: https://github.com/RadiusNetworks/flybuy-documentation/issues/new
 [5]: https://www.radiusnetworks.com/terms-of-service
+[6]: https://flybuy.radiusnetworks.com/projects
+[7]: https://account.radiusnetworks.comk
+[8]: https://account.radiusnetworks.com/teams
+[9]: /doc/app-flows.md
+[10]: https://github.com/RadiusNetworks/flybuy-android
+[11]: https://github.com/RadiusNetworks/flybuy-ios
+[12]: /doc/api/v1/orders.md
+[13]: /doc/api/v1/events.md
+[14]: /doc/webhooks.md
+[15]: /doc/white-label-domains.md
+[16]: /doc/custom-partner-integrations.md
