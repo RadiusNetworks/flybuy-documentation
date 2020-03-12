@@ -75,7 +75,7 @@ curl http://flybuy.radiusnetworks.com/api/v1/events \
   -X POST \
   -H 'Accept: application/json' \
   -H 'Content-Type: application/json' \
-  -H 'Authorization: Token="0123456789abcdef"' \
+  -H 'Authorization: Token token="0123456789abcdef"' \
   -d '{
     "data": {
       "order_id": 1,
@@ -135,7 +135,7 @@ curl http://flybuy.radiusnetworks.com/api/v1/events \
   -X POST \
   -H 'Accept: application/json' \
   -H 'Content-Type: application/json' \
-  -H 'Authorization: Token="0123456789abcdef"' \
+  -H 'Authorization: Token token="0123456789abcdef"' \
   -d '{
     "data": {
       "order_id": 1,
@@ -193,7 +193,7 @@ curl http://flybuy.radiusnetworks.com/api/v1/events \
   -X POST \
   -H 'Accept: application/json' \
   -H 'Content-Type: application/json' \
-  -H 'Authorization: Token="0123456789abcdef"' \
+  -H 'Authorization: Token token="0123456789abcdef"' \
   -d '{
     "data": {
       "order_id": 1,
@@ -230,7 +230,7 @@ curl http://flybuy.radiusnetworks.com/api/v1/events \
   -X POST \
   -H 'Accept: application/json' \
   -H 'Content-Type: application/json' \
-  -H 'Authorization: Token="0123456789abcdef"' \
+  -H 'Authorization: Token token="0123456789abcdef"' \
   -d '{
     "data": {
       "order_id": 1,

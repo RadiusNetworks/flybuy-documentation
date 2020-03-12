@@ -99,7 +99,7 @@ curl http://flybuy.radiusnetworks.com/api/v1/orders/1?include=site \
   -X GET \
   -H 'Accept: application/json' \
   -H 'Content-Type: application/json' \
-  -H 'Authorization: Token="0123456789abcdef"'
+  -H 'Authorization: Token token="0123456789abcdef"'
 ```
 
 ## <span id="creating-an-order">Creating An Order</span>
@@ -186,7 +186,7 @@ curl http://flybuy.radiusnetworks.com/api/v1/orders \
   -X POST \
   -H 'Accept: application/json' \
   -H 'Content-Type: application/json' \
-  -H 'Authorization: Token="0123456789abcdef"' \
+  -H 'Authorization: Token token="0123456789abcdef"' \
   -d '{
     "data": {
       "site_id": 1,
@@ -278,7 +278,7 @@ curl http://flybuy.radiusnetworks.com/api/v1/orders/1 \
   -X PUT \
   -H 'Accept: application/json' \
   -H 'Content-Type: application/json' \
-  -H 'Authorization: Token="0123456789abcdef"' \
+  -H 'Authorization: Token token="0123456789abcdef"' \
   -d '{
     "data": {
       "site_id": 1,
