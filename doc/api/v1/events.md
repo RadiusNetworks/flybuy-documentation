@@ -70,7 +70,7 @@ Content-Type: application/json
 ### <span id="adding-a-state-change-event-curl-example">Curl Example</span>
 
 ```sh
-curl http://flybuy.radiusnetworks.com/api/v1/events \
+curl https://flybuy.radiusnetworks.com/api/v1/events \
   -is \
   -X POST \
   -H 'Accept: application/json' \
@@ -130,7 +130,7 @@ Content-Type: application/json
 ### <span id="adding-a-location-update-event-curl-example">Curl Example</span>
 
 ```sh
-curl http://flybuy.radiusnetworks.com/api/v1/events \
+curl https://flybuy.radiusnetworks.com/api/v1/events \
   -is \
   -X POST \
   -H 'Accept: application/json' \
@@ -188,7 +188,7 @@ Content-Type: application/json
 ### <span id="adding-a-customer-rating-event-curl-example">Curl Example</span>
 
 ```sh
-curl http://flybuy.radiusnetworks.com/api/v1/events \
+curl https://flybuy.radiusnetworks.com/api/v1/events \
   -is \
   -X POST \
   -H 'Accept: application/json' \
@@ -225,7 +225,7 @@ Content-Type: application/json
 ### <span id="adding-an-event-to-an-order-that-is-no-longer-active-curl-example">Curl Example</span>
 
 ```sh
-curl http://flybuy.radiusnetworks.com/api/v1/events \
+curl https://flybuy.radiusnetworks.com/api/v1/events \
   -is \
   -X POST \
   -H 'Accept: application/json' \

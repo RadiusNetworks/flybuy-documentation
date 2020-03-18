@@ -94,7 +94,7 @@ Content-Type: application/json; charset=utf-8
 ### <span id="getting-an-order-curl-example">Curl Example</span>
 
 ```sh
-curl http://flybuy.radiusnetworks.com/api/v1/orders/1?include=site \
+curl https://flybuy.radiusnetworks.com/api/v1/orders/1?include=site \
   -is \
   -X GET \
   -H 'Accept: application/json' \
@@ -181,7 +181,7 @@ Content-Type: application/json; charset=utf-8
 ### <span id="creating-an-order-curl-example">Curl Example</span>
 
 ```sh
-curl http://flybuy.radiusnetworks.com/api/v1/orders \
+curl https://flybuy.radiusnetworks.com/api/v1/orders \
   -is \
   -X POST \
   -H 'Accept: application/json' \
@@ -273,7 +273,7 @@ Content-Type: application/json; charset=utf-8
 ### <span id="updating-an-order-curl-example">Curl Example</span>
 
 ```sh
-curl http://flybuy.radiusnetworks.com/api/v1/orders/1 \
+curl https://flybuy.radiusnetworks.com/api/v1/orders/1 \
   -is \
   -X PUT \
   -H 'Accept: application/json' \
