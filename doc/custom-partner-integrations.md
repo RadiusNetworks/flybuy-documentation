@@ -24,7 +24,8 @@ Below is a list of order and customer parameters (some required) that we typical
 | Order Contents | Orders that contain specific items can be tagged with custom icons displayed on the dashboard (e.g. fries, frozen items) |
 | Order Status | Allows you to update FlyBuy to reflect any order status changes on your end (e.g. created, ready, delayed, cancelled, completed) |
 
-## Recommended Parameters
+## Optional Parameters
+
 | **Attribute** | **Description** |
 | --- | --- |
 | Pickup Type | How the customer will be receiving their order (e.g. pickup, curbside, delivery) |
