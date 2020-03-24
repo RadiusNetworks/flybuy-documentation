@@ -1,5 +1,7 @@
 # Orders API
 
+- [Getting A List Of All Orders](#getting-a-list-of-all-orders)
+- [Getting Orders With A Given Partner Identifier](#getting-orders-with-a-given-partner-identifier)
 - [Getting An Order](#getting-an-order)
 - [Creating An Order](#creating-an-order)
 - [Updating An Order](#updating-an-order)
@@ -29,6 +31,145 @@ header:
 Content-Type: application/json
 ```
 
+## <span id="getting-a-list-of-all-orders">Getting A List Of All Orders</span>
+
+```http
+GET /api/v1/orders
+```
+
+This returns a paginated response of all orders, across all projects and sites, accessible by
+the account associated with the API key authorizing the request.
+
+### <span id="getting-a-list-of-all-orders-parameters">Parameters</span>
+
+
+
+| **Name** | **Type** | **Description** |
+| -------- | -------- | --------------- |
+| `partner_identifier` | `string` | _Optional._ If given, the API returns only orders with a `partner_identifier` that matches the provided value. |
+| `page` | `integer` | _Optional._ Allows retrieving a specific page of the results. Defaults to 1. |
+| `per` | `integer` | _Optional._ Specifies how many orders should be included in a page of results. Defaults to 50. |
+
+### <span id="getting-a-list-of-all-orders-response">Response</span>
+
+```http
+Status: 200 OK
+Content-Type: application/json; charset=utf-8
+```
+```json
+{
+  "data": [
+    {
+      "type": "order",
+      "order_id": 1,
+      "order_state": "created",
+      "redemption_url": "http://flybuy.radiusnetworks.com/m/o?r=QJ1ZED",
+      "id": 1,
+      "arrived_at": null,
+      "customer_state": "created",
+      "eta_at": null,
+      "partner_identifier": null,
+      "state": "created",
+      "redemption_code": "QJ1ZED",
+      "created_at": "2020-03-22T18:46:41.706Z",
+      "updated_at": "2020-03-22T18:46:41.706Z",
+      "area_name": null,
+      "customer_id": null,
+      "site_id": 1,
+      "site_partner_identifier": "site1",
+      "customer_name": null,
+      "customer_car_type": null,
+      "customer_car_color": null,
+      "customer_license_plate": null,
+      "customer_rating_value": null,
+      "customer_rating_value_string": "",
+      "customer_rating_comments": null,
+      "pickup_window": "2020-03-22T16:46:41.704Z/2020-03-22T17:46:41.704Z",
+      "push_token": null
+    }
+  ],
+  "pages": {
+    "current": 1,
+    "count": 1,
+    "per": 50
+  }
+}
+```
+
+### <span id="getting-a-list-of-all-orders-curl-example">Curl Example</span>
+
+```sh
+curl http://flybuy.radiusnetworks.com/api/v1/orders \
+  -is \
+  -X GET \
+  -H 'Accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -H 'Authorization: Token="0123456789abcdef"'
+```
+
+## <span id="getting-orders-with-a-given-partner-identifier">Getting Orders With A Given Partner Identifier</span>
+
+```http
+GET /api/v1/orders?partner_identifier=12345
+```
+
+### <span id="getting-orders-with-a-given-partner-identifier-response">Response</span>
+
+```http
+Status: 200 OK
+Content-Type: application/json; charset=utf-8
+```
+```json
+{
+  "data": [
+    {
+      "type": "order",
+      "order_id": 1,
+      "order_state": "created",
+      "redemption_url": "http://flybuy.radiusnetworks.com/m/o?r=EXACCT",
+      "id": 1,
+      "arrived_at": null,
+      "customer_state": "created",
+      "eta_at": null,
+      "partner_identifier": "12345",
+      "state": "created",
+      "redemption_code": "EXACCT",
+      "created_at": "2020-03-22T18:46:41.893Z",
+      "updated_at": "2020-03-22T18:46:41.893Z",
+      "area_name": null,
+      "customer_id": null,
+      "site_id": 1,
+      "site_partner_identifier": "site1",
+      "customer_name": null,
+      "customer_car_type": null,
+      "customer_car_color": null,
+      "customer_license_plate": null,
+      "customer_rating_value": null,
+      "customer_rating_value_string": "",
+      "customer_rating_comments": null,
+      "pickup_window": "2020-03-22T16:46:41.891Z/2020-03-22T17:46:41.891Z",
+      "push_token": null
+    }
+  ],
+  "pages": {
+    "current": 1,
+    "count": 1,
+    "per": 50
+  }
+}
+```
+
+### <span id="getting-orders-with-a-given-partner-identifier-curl-example">Curl Example</span>
+
+```sh
+curl http://flybuy.radiusnetworks.com/api/v1/orders?partner_identifier=12345 \
+  -is \
+  -X GET \
+  -H 'Accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -H 'Authorization: Token="0123456789abcdef"'
+```
+
 ## <span id="getting-an-order">Getting An Order</span>
 
 ```http
@@ -47,15 +188,16 @@ Content-Type: application/json; charset=utf-8
     "type": "order",
     "order_id": 1,
     "order_state": "created",
+    "redemption_url": "http://flybuy.radiusnetworks.com/m/o?r=H8PUYP",
     "id": 1,
     "arrived_at": null,
     "customer_state": "created",
     "eta_at": null,
     "partner_identifier": null,
     "state": "created",
-    "redemption_code": "31S4VF",
-    "created_at": "2020-02-20T17:23:39.708Z",
-    "updated_at": "2020-02-20T17:23:39.708Z",
+    "redemption_code": "H8PUYP",
+    "created_at": "2020-03-22T18:46:41.999Z",
+    "updated_at": "2020-03-22T18:46:41.999Z",
     "area_name": null,
     "customer_id": null,
     "site_id": 1,
@@ -65,8 +207,9 @@ Content-Type: application/json; charset=utf-8
     "customer_car_color": null,
     "customer_license_plate": null,
     "customer_rating_value": null,
+    "customer_rating_value_string": "",
     "customer_rating_comments": null,
-    "pickup_window": "2020-02-20T15:23:39.706Z/2020-02-20T16:23:39.706Z",
+    "pickup_window": "2020-03-22T16:46:41.997Z/2020-03-22T17:46:41.997Z",
     "push_token": null
   },
   "included": [
@@ -94,12 +237,12 @@ Content-Type: application/json; charset=utf-8
 ### <span id="getting-an-order-curl-example">Curl Example</span>
 
 ```sh
-curl https://flybuy.radiusnetworks.com/api/v1/orders/1?include=site \
+curl http://flybuy.radiusnetworks.com/api/v1/orders/1?include=site \
   -is \
   -X GET \
   -H 'Accept: application/json' \
   -H 'Content-Type: application/json' \
-  -H 'Authorization: Token token="0123456789abcdef"'
+  -H 'Authorization: Token="0123456789abcdef"'
 ```
 
 ## <span id="creating-an-order">Creating An Order</span>
@@ -150,15 +293,16 @@ Content-Type: application/json; charset=utf-8
     "type": "order",
     "order_id": 1,
     "order_state": "created",
+    "redemption_url": "http://flybuy.radiusnetworks.com/m/o?r=2YCKLS",
     "id": 1,
     "arrived_at": null,
     "customer_state": "created",
     "eta_at": null,
     "partner_identifier": "123XYZ",
     "state": "created",
-    "redemption_code": "RRMFJF",
-    "created_at": "2020-02-20T17:23:39.891Z",
-    "updated_at": "2020-02-20T17:23:39.891Z",
+    "redemption_code": "2YCKLS",
+    "created_at": "2020-03-22T18:46:42.143Z",
+    "updated_at": "2020-03-22T18:46:42.143Z",
     "area_name": null,
     "customer_id": null,
     "site_id": 1,
@@ -168,6 +312,7 @@ Content-Type: application/json; charset=utf-8
     "customer_car_color": null,
     "customer_license_plate": null,
     "customer_rating_value": null,
+    "customer_rating_value_string": "",
     "customer_rating_comments": null,
     "pickup_window": "2019-03-25T17:57:34.603Z/2019-03-25T17:57:34.603Z",
     "push_token": null
@@ -181,12 +326,12 @@ Content-Type: application/json; charset=utf-8
 ### <span id="creating-an-order-curl-example">Curl Example</span>
 
 ```sh
-curl https://flybuy.radiusnetworks.com/api/v1/orders \
+curl http://flybuy.radiusnetworks.com/api/v1/orders \
   -is \
   -X POST \
   -H 'Accept: application/json' \
   -H 'Content-Type: application/json' \
-  -H 'Authorization: Token token="0123456789abcdef"' \
+  -H 'Authorization: Token="0123456789abcdef"' \
   -d '{
     "data": {
       "site_id": 1,
@@ -225,7 +370,7 @@ PUT /api/v1/orders/1
 {
   "data": {
     "site_id": 1,
-    "pickup_window": "2020-02-20T15:23:39.961Z/2020-02-20T16:23:39.961Z"
+    "pickup_window": "2020-03-22T16:46:42.214Z/2020-03-22T17:46:42.214Z"
   }
 }
 ```
@@ -242,15 +387,16 @@ Content-Type: application/json; charset=utf-8
     "type": "order",
     "order_id": 1,
     "order_state": "created",
+    "redemption_url": "http://flybuy.radiusnetworks.com/m/o?r=JJSSES",
     "id": 1,
     "arrived_at": null,
     "customer_state": "created",
     "eta_at": null,
     "partner_identifier": null,
     "state": "created",
-    "redemption_code": "UGZFJJ",
-    "created_at": "2020-02-20T17:23:40.001Z",
-    "updated_at": "2020-02-20T17:23:40.019Z",
+    "redemption_code": "JJSSES",
+    "created_at": "2020-03-22T18:46:42.254Z",
+    "updated_at": "2020-03-22T18:46:42.267Z",
     "area_name": null,
     "customer_id": null,
     "site_id": 1,
@@ -260,8 +406,9 @@ Content-Type: application/json; charset=utf-8
     "customer_car_color": null,
     "customer_license_plate": null,
     "customer_rating_value": null,
+    "customer_rating_value_string": "",
     "customer_rating_comments": null,
-    "pickup_window": "2020-02-20T15:23:39.961Z/2020-02-20T16:23:39.961Z",
+    "pickup_window": "2020-03-22T16:46:42.214Z/2020-03-22T17:46:42.214Z",
     "push_token": null
   },
   "included": [
@@ -273,16 +420,16 @@ Content-Type: application/json; charset=utf-8
 ### <span id="updating-an-order-curl-example">Curl Example</span>
 
 ```sh
-curl https://flybuy.radiusnetworks.com/api/v1/orders/1 \
+curl http://flybuy.radiusnetworks.com/api/v1/orders/1 \
   -is \
   -X PUT \
   -H 'Accept: application/json' \
   -H 'Content-Type: application/json' \
-  -H 'Authorization: Token token="0123456789abcdef"' \
+  -H 'Authorization: Token="0123456789abcdef"' \
   -d '{
     "data": {
       "site_id": 1,
-      "pickup_window": "2020-02-20T15:23:39.961Z/2020-02-20T16:23:39.961Z"
+      "pickup_window": "2020-03-22T16:46:42.214Z/2020-03-22T17:46:42.214Z"
     }
   }'
 ```
