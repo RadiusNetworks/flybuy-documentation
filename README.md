@@ -12,7 +12,7 @@ pickup and staff tooling with other systems.
 
 ## Documentation
 
-- [App Flows][9] - General information about mobile app flow
+- [Mobile SDK Integration Guide][9] - Detailed steps for integrating the SDK within a merchant app
 - [Android SDK][10]
 - [iOS SDK][11]
 - [Orders API][12] - Create, update, and view FlyBuy orders
@@ -30,7 +30,7 @@ knowledge base][3].
 
 If you've found a problem in this library, perform a search under [Issues][4]
 in case it has already been reported. If you do not find any issue addressing
-it, feel free to [open a new one][4].
+it, feel free to [open a new one][17].
 
 Your issue report should contain a title and a clear description of the issue
 at a minimum. Please provide as much relevant information as possible to
@@ -51,16 +51,17 @@ of service][5]
 [1]: https://flybuy.radiusnetworks.com/
 [2]: https://www.radiusnetworks.com/
 [3]: https://support.radiusnetworks.com/
-[4]: https://github.com/RadiusNetworks/flybuy-documentation/issues/new
+[4]: https://github.com/RadiusNetworks/flybuy-documentation/issues
 [5]: https://www.radiusnetworks.com/terms-of-service
 [6]: https://flybuy.radiusnetworks.com/projects
-[7]: https://account.radiusnetworks.comk
+[7]: https://account.radiusnetworks.com
 [8]: https://account.radiusnetworks.com/teams
-[9]: /doc/app-flows.md
+[9]: doc/sdk-integration.md
 [10]: https://github.com/RadiusNetworks/flybuy-android
 [11]: https://github.com/RadiusNetworks/flybuy-ios
-[12]: /doc/api/v1/orders.md
-[13]: /doc/api/v1/events.md
-[14]: /doc/webhooks.md
-[15]: /doc/white-label-domains.md
-[16]: /doc/custom-partner-integrations.md
+[12]: doc/api/v1/orders.md
+[13]: doc/api/v1/events.md
+[14]: doc/webhooks.md
+[15]: doc/white-label-domains.md
+[16]: doc/custom-partner-integrations.md
+[17]: https://github.com/RadiusNetworks/flybuy-documentation/issues/new
