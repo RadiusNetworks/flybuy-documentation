@@ -63,7 +63,7 @@ Content-Type: application/json; charset=utf-8
       "type": "order",
       "order_id": 1,
       "order_state": "created",
-      "redemption_url": "http://flybuy.radiusnetworks.com/m/o?r=QJ1ZED",
+      "redemption_url": "https://flybuy.radiusnetworks.com/m/o?r=QJ1ZED",
       "id": 1,
       "arrived_at": null,
       "customer_state": "created",
@@ -99,12 +99,12 @@ Content-Type: application/json; charset=utf-8
 ### <span id="getting-a-list-of-all-orders-curl-example">Curl Example</span>
 
 ```sh
-curl http://flybuy.radiusnetworks.com/api/v1/orders \
+curl https://flybuy.radiusnetworks.com/api/v1/orders \
   -is \
   -X GET \
   -H 'Accept: application/json' \
   -H 'Content-Type: application/json' \
-  -H 'Authorization: Token="0123456789abcdef"'
+  -H 'Authorization: Token token = "0123456789abcdef"'
 ```
 
 ## <span id="getting-orders-with-a-given-partner-identifier">Getting Orders With A Given Partner Identifier</span>
@@ -126,7 +126,7 @@ Content-Type: application/json; charset=utf-8
       "type": "order",
       "order_id": 1,
       "order_state": "created",
-      "redemption_url": "http://flybuy.radiusnetworks.com/m/o?r=EXACCT",
+      "redemption_url": "https://flybuy.radiusnetworks.com/m/o?r=EXACCT",
       "id": 1,
       "arrived_at": null,
       "customer_state": "created",
@@ -162,12 +162,12 @@ Content-Type: application/json; charset=utf-8
 ### <span id="getting-orders-with-a-given-partner-identifier-curl-example">Curl Example</span>
 
 ```sh
-curl http://flybuy.radiusnetworks.com/api/v1/orders?partner_identifier=12345 \
+curl https://flybuy.radiusnetworks.com/api/v1/orders?partner_identifier=12345 \
   -is \
   -X GET \
   -H 'Accept: application/json' \
   -H 'Content-Type: application/json' \
-  -H 'Authorization: Token="0123456789abcdef"'
+  -H 'Authorization: Token token = "0123456789abcdef"'
 ```
 
 ## <span id="getting-an-order">Getting An Order</span>
@@ -188,7 +188,7 @@ Content-Type: application/json; charset=utf-8
     "type": "order",
     "order_id": 1,
     "order_state": "created",
-    "redemption_url": "http://flybuy.radiusnetworks.com/m/o?r=H8PUYP",
+    "redemption_url": "https://flybuy.radiusnetworks.com/m/o?r=H8PUYP",
     "id": 1,
     "arrived_at": null,
     "customer_state": "created",
@@ -237,12 +237,12 @@ Content-Type: application/json; charset=utf-8
 ### <span id="getting-an-order-curl-example">Curl Example</span>
 
 ```sh
-curl http://flybuy.radiusnetworks.com/api/v1/orders/1?include=site \
+curl https://flybuy.radiusnetworks.com/api/v1/orders/1?include=site \
   -is \
   -X GET \
   -H 'Accept: application/json' \
   -H 'Content-Type: application/json' \
-  -H 'Authorization: Token="0123456789abcdef"'
+  -H 'Authorization: Token token = "0123456789abcdef"'
 ```
 
 ## <span id="creating-an-order">Creating An Order</span>
@@ -293,7 +293,7 @@ Content-Type: application/json; charset=utf-8
     "type": "order",
     "order_id": 1,
     "order_state": "created",
-    "redemption_url": "http://flybuy.radiusnetworks.com/m/o?r=2YCKLS",
+    "redemption_url": "https://flybuy.radiusnetworks.com/m/o?r=2YCKLS",
     "id": 1,
     "arrived_at": null,
     "customer_state": "created",
@@ -326,12 +326,12 @@ Content-Type: application/json; charset=utf-8
 ### <span id="creating-an-order-curl-example">Curl Example</span>
 
 ```sh
-curl http://flybuy.radiusnetworks.com/api/v1/orders \
+curl https://flybuy.radiusnetworks.com/api/v1/orders \
   -is \
   -X POST \
   -H 'Accept: application/json' \
   -H 'Content-Type: application/json' \
-  -H 'Authorization: Token="0123456789abcdef"' \
+  -H 'Authorization: Token token = "0123456789abcdef"' \
   -d '{
     "data": {
       "site_id": 1,
@@ -387,7 +387,7 @@ Content-Type: application/json; charset=utf-8
     "type": "order",
     "order_id": 1,
     "order_state": "created",
-    "redemption_url": "http://flybuy.radiusnetworks.com/m/o?r=JJSSES",
+    "redemption_url": "https://flybuy.radiusnetworks.com/m/o?r=JJSSES",
     "id": 1,
     "arrived_at": null,
     "customer_state": "created",
@@ -420,12 +420,12 @@ Content-Type: application/json; charset=utf-8
 ### <span id="updating-an-order-curl-example">Curl Example</span>
 
 ```sh
-curl http://flybuy.radiusnetworks.com/api/v1/orders/1 \
+curl https://flybuy.radiusnetworks.com/api/v1/orders/1 \
   -is \
   -X PUT \
   -H 'Accept: application/json' \
   -H 'Content-Type: application/json' \
-  -H 'Authorization: Token="0123456789abcdef"' \
+  -H 'Authorization: Token token = "0123456789abcdef"' \
   -d '{
     "data": {
       "site_id": 1,
