@@ -37,7 +37,7 @@ Header
 ```http
 Accept: application/json
 Content-Type: application/json
-Authorization: Token="FFCPUG2A"
+Authorization: Token token="FFCPUG2A"
 ```
 
 Body
