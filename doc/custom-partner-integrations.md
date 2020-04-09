@@ -1,4 +1,4 @@
-# Customer Partner Integrations
+# Custom Partner Integrations
 
 FlyBuy is already integrated with many popular e-commerce and fulfillment platforms (e.g., Olo, Toast, ShopperKit) to seamlessly import orders after they are placed and to handle any updates should those orders change. If your platform of choice isn't included in our list of existing integrations or you have your own system for tracking orders, we are happy to work with you build a custom partner integration to fit your needs. Read below for more information, and contact your Account Executive or drop an email to support@radiusnetworks.com when you're ready to get started.
 
