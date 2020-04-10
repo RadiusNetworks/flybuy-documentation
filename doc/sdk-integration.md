@@ -30,23 +30,38 @@ The FlyBuy SDK must be initialized when the application starts in order to confi
 
 ## Location Permissions
 
-FlyBuy uses location services on the mobile devices to send updates and provide accurate ETAs to the merchant site. Prior to or during the [Order Redemption Flow](#order-redemption-flow) or [Order Creation Flow](#order-creation-flow), the app must ask for location permissions from the user. Refer to the Setting Permissions section of the quick start guides for [iOS](https://github.com/RadiusNetworks/flybuy-ios/blob/master/doc/quickstart.md#setting-permissions) and [Android](https://github.com/RadiusNetworks/flybuy-android/blob/master/doc/quickstart.md#setting-permissions) for details. If the app already asks for location permissions for other purposes, this may not be necessary. If the user does not provide permission, the SDK provides methods for updating the customer state manually, e.g. tapping a button in the UI (See [Order Status Screen](#order-status-screen)). 
+FlyBuy uses location services on the mobile devices to send updates and provide accurate ETAs to the merchant site. Prior to or during the [Order Redemption Flow](#order-redemption-flow) or [Order Creation Flow](#order-creation-flow), the app must ask for location permissions from the user. Refer to the Setting Permissions section of the quick start guides for [iOS](https://github.com/RadiusNetworks/flybuy-ios/blob/master/doc/quickstart.md#setting-permissions) and [Android](https://github.com/RadiusNetworks/flybuy-android/blob/master/doc/quickstart.md#setting-permissions) for details. If the app already asks for location permissions for other purposes, this may not be necessary. If the user does not provide permission, the SDK provides methods for updating the customer state manually, e.g. tapping a button in the UI (See [Order Status Screen](#order-status-screen)).
 
 ## Deep Linking
 
 A white label domain is required to deep link into the merchant app from FlyBuy due to restrictions from iOS/Android. First, follow the [white label domains](white-label-domains.md) instructions to configure the domain name. Reach out to your Customer Success Manager if you do not know your white label domain.
 
-For iOS, follow the instructions at [https://github.com/RadiusNetworks/flybuy-ios/blob/master/doc/universal_links.md](https://github.com/RadiusNetworks/flybuy-ios/blob/master/doc/universal_links.md) to setup the app to handle deep links.
+Please refer to the platform specific instructions for more details:
 
-For Android, follow the instructions at [https://github.com/RadiusNetworks/flybuy-android/blob/master/doc/app_links.md](https://github.com/RadiusNetworks/flybuy-android/blob/master/doc/app_links.md).
+- [iOS Universal Links with FlyBuy](https://github.com/RadiusNetworks/flybuy-ios/blob/master/doc/universal_links.md)
+- [Android App Links with FlyBuy](https://github.com/RadiusNetworks/flybuy-android/blob/master/doc/app_links.md)
 
-The deep link URL will look like the following and contain one URL parameter (`r`) for the redemption code. 
+The deep link URL will look like the following and contain one URL parameter (`r`) for the redemption code.
 
 ```
 https://pickup.example.com/m/o?r=AAAAAA
 ```
 
 Parse the URL to retrieve the redemption code (AAAAAA in example above), then refer to the [order redemption flow](#order-redemption-flow) for fetching the order using the order code in the deep link.
+
+## Data Models
+
+There are a few data models that FlyBuy uses to deliver it's service, the core four are:
+
+| Model          | Description |
+| ---            | ---         |
+| `Sites`        | Sites represent stores or restaurants, and all orders must belong to one. |
+| `Customers`    | Customers represent end-users of the app. A customer instance is required, and must be logged in to the SDK, however non of the attributes for a customer are required. An app can create an anonymous customer record and use that. But including basic customer information, such as vehicle information, can be useful for updating that in the on-site dashboard. |
+| `Orders`       | Orders represent an order, ticket, package, or meal that is being served by the app. The app should interact with an order to fetch details and claim. Customer journey or order status is handled via Order Events. |
+| `Order Events` | Order Events order events are how we update the customer journey, their location, ETA, and status; as well as the order updates, such as delayed or completed. The SDK will handle all location related updates automatically if it has permission from the mobile device to do so. Manual events can be sent as a fall back or way to augment the customer status. These can include a way to use the FlyBuy service without access to location services. |
+
+One additional concept that is helpful is FlyBuy's `partnerIdentifier`. FlyBuy uses this as a reference ID in it's system that can be your ID. Each of the above models have that attribute and it is there to help associate or identify FlyBuy resources with any from external applications or systems. FlyBuy has internal identifiers (such as `site id` or `order id` that is can rely on for data consistency, but provides the `partnerIdentifier` to serve as an external ID.
+
 
 ## Order Redemption Flow
 
@@ -73,6 +88,8 @@ When the app is ready to redeem the order (typically after the user confirms the
 After successfully creating a customer or logging in, claim the order using `FlyBuy.orders.claim(redemptionCode, customerInfo)`. This customer information does not need to be the same as the customer that is logged in. It should be the information for the person that is picking up the order. Refer to [iOS](https://github.com/RadiusNetworks/flybuy-ios/blob/master/doc/orders.md#claim-orders) and [Android](https://github.com/RadiusNetworks/flybuy-android/blob/master/doc/orders.md#claim-orders) documentation for specifics on this method.
 
 **IMPORTANT:** On iOS, make sure to call `FlyBuy.orders.fetch()` to sync the orders after successfully claiming the order.
+
+Once the order is claimed the FlyBuy SDK will begin location services and will automatically send any order event updates to the FlyBuy backend. This will include any customer states that can be automatically detected, such as en route, nearby or waiting. If location is not avaliable the SDK supports manual status updates by the customer, such as tapping an "I'm done button (see below for the Status Screen's [Waiting](#waiting) as an example.
 
 After successfully claiming the order, proceed to the [Order Status Screen](#order-status-screen).
 
@@ -102,7 +119,7 @@ After successfully creating the order, proceed to the [Order Status Screen](#ord
 
 The order status page (also referred to as order details) provides the user with a view reflecting the current state of the order and provides the ability for users to manually update their status in case location permissions are not given.
 
-Any order that was previously redeemed or created for the current customer is available via `FlyBuy.orders.all`, `FlyBuy.orders.open`, or `FlyBuy.orders.closed`. Otherwise, use `FlyBuy.orders.fetch()` to retrieve an updated list of orders for the current customer. Refer to [iOS](https://github.com/RadiusNetworks/flybuy-ios/blob/master/doc/orders.md#fetch-claimed-orders) and [Android](https://github.com/RadiusNetworks/flybuy-android/blob/master/doc/orders.md#fetch-claimed-orders) documentation for specifics on each platform. 
+Any order that was previously redeemed or created for the current customer is available via `FlyBuy.orders.all`, `FlyBuy.orders.open`, or `FlyBuy.orders.closed`. Otherwise, use `FlyBuy.orders.fetch()` to retrieve an updated list of orders for the current customer. Refer to [iOS](https://github.com/RadiusNetworks/flybuy-ios/blob/master/doc/orders.md#fetch-claimed-orders) and [Android](https://github.com/RadiusNetworks/flybuy-android/blob/master/doc/orders.md#fetch-claimed-orders) documentation for specifics on each platform.
 
 Each order contains a `partnerIdentifier` for the associated order number for the merchant if it was provided. Otherwise, the app can keep a reference to FlyBuy `orderId` and use that to find the order. If there were no errors retrieving the order, use the `order` object to display relevant information to the user such as site information.
 
@@ -143,7 +160,7 @@ The customer is en route to the merchant. Display appropriate messaging to the u
 
 ## Customer Management
 
-FlyBuy uses a `customer` object and its associated `customerToken` to associate orders with a given user. Before any order related SDK methods are used, a `customer` must exist either by creating a customer or logging in. 
+FlyBuy uses a `customer` object and its associated `customerToken` to associate orders with a given user. Before any order related SDK methods are used, a `customer` must exist either by creating a customer or logging in.
 
 The customer token is returned as part of the `customer` object after creating a customer or logging in. If the app wants to keep the same FlyBuy customer associated with the app user, it is the app's responsibility store it securely for subsequent logins.
 
@@ -163,7 +180,7 @@ When the user logs out of the app, make sure to also call `FlyBuy.customer.logou
 
 ## Order Management
 
-In order for users to check the status of a given order, the app should provide a mechanism to return to the [Order Status Screen](#order-status-screen) such as a list of open orders. Make sure to call `FlyBuy.orders.fetch()` when loading the list of orders to retrieve a current list of orders. 
+In order for users to check the status of a given order, the app should provide a mechanism to return to the [Order Status Screen](#order-status-screen) such as a list of open orders. Make sure to call `FlyBuy.orders.fetch()` when loading the list of orders to retrieve a current list of orders.
 
 ## Push Message Handling
 
