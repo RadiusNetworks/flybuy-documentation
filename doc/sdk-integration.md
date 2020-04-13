@@ -60,7 +60,9 @@ There are a few data models that FlyBuy uses to deliver it's service, the core f
 | `Orders`       | Orders represent an order, ticket, package, or meal that is being served by the app. The app should interact with an order to fetch details and claim. Customer journey or order status is handled via Order Events. |
 | `Order Events` | Order Events order events are how we update the customer journey, their location, ETA, and status; as well as the order updates, such as delayed or completed. The SDK will handle all location related updates automatically if it has permission from the mobile device to do so. Manual events can be sent as a fall back or way to augment the customer status. These can include a way to use the FlyBuy service without access to location services. |
 
-One additional concept that is helpful is FlyBuy's `partnerIdentifier`. FlyBuy uses this as a reference ID in it's system that can be your ID. Each of the above models have that attribute and it is there to help associate or identify FlyBuy resources with any from external applications or systems. FlyBuy has internal identifiers (such as `site id` or `order id` that is can rely on for data consistency, but provides the `partnerIdentifier` to serve as an external ID.
+One additional concept that is helpful is FlyBuy's `partnerIdentifier`.
+
+FlyBuy uses this as a reference ID in it's system that can be your ID. Think of this a field to store your own ID to any of the above models. Each of the above models have that attribute and it is there to help associate or identify FlyBuy resources with any from external applications or systems. FlyBuy has internal identifiers (such as `site id` or `order id` that is can rely on for data consistency, but provides the `partnerIdentifier` to serve as an external ID.
 
 
 ## Order Redemption Flow
@@ -89,7 +91,7 @@ After successfully creating a customer or logging in, claim the order using `Fly
 
 **IMPORTANT:** On iOS, make sure to call `FlyBuy.orders.fetch()` to sync the orders after successfully claiming the order.
 
-Once the order is claimed the FlyBuy SDK will begin location services and will automatically send any order event updates to the FlyBuy backend. This will include any customer states that can be automatically detected, such as en route, nearby or waiting. If location is not avaliable the SDK supports manual status updates by the customer, such as tapping an "I'm done button (see below for the Status Screen's [Waiting](#waiting) as an example.
+Once the order is claimed the FlyBuy SDK will begin location services and will automatically send any order event updates to the FlyBuy backend. This will include any customer states that can be automatically detected, such as en route, nearby or waiting. If location is not avaliable the SDK supports manual status updates by the customer, such as tapping an "I'm done button" (see below for the Status Screen's [Waiting](#waiting) as an example.
 
 After successfully claiming the order, proceed to the [Order Status Screen](#order-status-screen).
 
