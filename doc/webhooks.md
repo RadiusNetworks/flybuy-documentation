@@ -72,4 +72,31 @@ Body
 
 ## Security
 
+### Token
+
 FlyBuy optionally supports the use of an Authorization Token to secure access to your Webhook URL. The Authorization Token can be created or edited through your projects Webhook settings.
+
+### HMAC Signature
+
+There is also an option to have webhooks be signed using an HMAC-SHA256 algorithm by adding an "HMAC Key"
+to the webhook configuration. Once the key is added, the `Authorization` header will look like this:
+
+```http
+Authorization: Token token="FFCPUG2A" signature="pUPEUsnisEDwc8u5f3oEoSi6dNubKjIxv/QKCwSZhWI="
+```
+
+In order to verify the signature, you must first construct the message to be signed. The message is made
+up of the `Date` header value and the webhook's HTTP body joined together with a newline character between.
+Then you compute the HMAC-SHA256 digest of the message and convert it to the Base64 encoding. This should
+match the signature that was given.
+
+Here's some psuedocode demonstrating the process:
+```rb
+message = [headers['date'], body].join('\n')
+expected_signature = Base64(HMAC_SHA256(hmac_key, message))
+if signature == expected_signature
+  # the webhook is valid!
+else
+  # invalid signature!
+end
+```
