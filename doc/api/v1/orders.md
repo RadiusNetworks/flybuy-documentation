@@ -1,182 +1,232 @@
 # Orders API
 
-- [Getting A List Of All Orders](#getting-a-list-of-all-orders)
-- [Getting Orders With A Given Partner Identifier](#getting-orders-with-a-given-partner-identifier)
-- [Getting An Order](#getting-an-order)
-- [Creating An Order](#creating-an-order)
-- [Updating An Order](#updating-an-order)
+- [API Specs](#api-specs)
+- [Create An Order](#create-an-order)
+- [Create An Order With Tags](#create-an-order-with-tags)
+- [Get An Order With A FlyBuy Order Identifer](#get-an-order-with-a-flybuy-order-identifer)
+- [Get An Order With A Partner Order Identifier](#get-an-order-with-a-partner-order-identifier)
+- [Get A List Of All Orders](#get-a-list-of-all-orders)
+- [Update An Order](#update-an-order)
 
-This describes the FlyBuy Orders API v1. If you have any problems or
-requests please contact [support](https://support.radiusnetworks.com).
+The FlyBuy Orders API enables partners to create orders, fetch information about an order, and update order details.
 
-## Headers <a href="#headers" id="headers" class="headerlink"></a>
+Must Do's:
+- To kick off the FlyBuy experience for a customer, an order must be created at minimum.
+- FlyBuy also requires an order to be in the `ready` state to start collecting location information from the customer.
+Once the order is ready, [send](doc/api/v1/events.md#adding-a-state-change-event) a `ready` state change for the order.
+If your system does not have a distinct `ready` state that would ever get sent, send FlyBuy the `ready` state change immediately after creating an order.
 
-The API Key is passed via the Authorization header:
+## <span id="api-specs">API Specs</span>
+
+A sample Postman collection can be found [here](https://www.getpostman.com/collections/3684da81f53275af8c22).
+Example curl commands can also be found at the end of each respective section.
+
+### Hostname
+
+Use this hostname with the HTTP protocol specified in each section to get the full API URL.
 
 ```http
-Authorization: Token token="secret"
+https://flybuy.radiusnetworks.com
 ```
 
-The API Key is associated with your account and has access to all the resources
-associated with your account. Account specific API keys have different
-permissions than the web login users that can interact with the dashboard, and
-the access may be different.
+### Headers
 
-If you do not have an API key, [you can create one here](https://account.radiusnetworks.com/personal_tokens).
-
-### Content Type <a href="#content-type" id="content-type" class="headerlink"></a>
-The content type is `application/json` and should be set in the `Content-Type`
-header:
 ```http
+Accept: application/json
 Content-Type: application/json
+Authorization: Token token="api-token"
 ```
 
-## <span id="getting-a-list-of-all-orders">Getting A List Of All Orders</span>
+The API token is a 48-character key associated with your account that allows access to all resources under that account.
+Create and manage API tokens [here](https://account.radiusnetworks.com/personal_tokens).
 
-```http
-GET /api/v1/orders
-```
+The API token is different from webhook and SDK tokens. If you require a webhook or SDK token, please reach out to your FlyBuy customer success representative.
 
-This returns a paginated response of all orders, across all projects and sites, accessible by
-the account associated with the API key authorizing the request.
+### <span id="api-specs-parameters">Parameters</span>
 
-### <span id="getting-a-list-of-all-orders-parameters">Parameters</span>
-
-
+When creating and updating orders, the body payload should be a JSON object. All items must be sent under a top-level `data` object unless they are specified as `metadata`. Items that are specified as `metadata` must be passed in as a top-level `metadata` object.
 
 | **Name** | **Type** | **Description** |
 | -------- | -------- | --------------- |
-| `partner_identifier` | `string` | _Optional._ If given, the API returns only orders with a `partner_identifier` that matches the provided value. |
-| `page` | `integer` | _Optional._ Allows retrieving a specific page of the results. Defaults to 1. |
-| `per` | `integer` | _Optional._ Specifies how many orders should be included in a page of results. Defaults to 50. |
+| `site_id` | `integer` | **Required.** A FlyBuy site identifier that references a site in a project you have access to. |
+| `customer_phone` | `string` | _Recommended._ The customer's phone number. The customer's phone number is required to initiate the FlyBuy experience. |
+| `customer_name` | `string` | _Optional._ The customer's name. |
+| `customer_token` | `string` | _Optional._ If given a customer token, FlyBuy will automatically associate the order with the customer's account. Otherwise, the customer will be required to redeem the order via a link supplied by the system. This can only be used when creating the order. |
+| `customer_car_color` | `string` | _Optional._ The color of the customer's car. |
+| `customer_car_type` | `string` | _Optional._ The customer's car type (ex: Toyota Camry). |
+| `customer_license_plate` | `string` | _Optional._ The customer's license plate. |
+| `partner_identifier` | `string` | _Optional._ An identifier used to track this order in another system. If provided, an order can also be retrieved using this value. |
+| `push_token` | `string` | _Optional._ A token used to send push notifications to the user's mobile device. |
+| `pickup_window` | `string` | _Optional._ When the order should be picked up. It can either be a date/time in [ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601), or a [date/time interval](https://en.wikipedia.org/wiki/ISO_8601#Time_intervals) of the format `"start/end"`. |
+| `metadata.taggable_keywords` | `string` | _Optional._ If matching tags are found, they will be applied to the order. |
 
-### <span id="getting-a-list-of-all-orders-response">Response</span>
+
+## <span id="create-an-order">Create An Order</span>
 
 ```http
-Status: 200 OK
+POST /api/v1/orders
+```
+
+### <span id="create-an-order-response">Response</span>
+
+```http
+Status: 201 Created
 Content-Type: application/json; charset=utf-8
 ```
 ```json
 {
-  "data": [
-    {
-      "type": "order",
-      "order_id": 1,
-      "order_state": "created",
-      "redemption_url": "https://flybuy.radiusnetworks.com/m/o?r=QJ1ZED",
-      "id": 1,
-      "arrived_at": null,
-      "customer_state": "created",
-      "eta_at": null,
-      "partner_identifier": null,
-      "state": "created",
-      "redemption_code": "QJ1ZED",
-      "created_at": "2020-03-22T18:46:41.706Z",
-      "updated_at": "2020-03-22T18:46:41.706Z",
-      "area_name": null,
-      "customer_id": null,
-      "site_id": 1,
-      "site_partner_identifier": "site1",
-      "customer_name": null,
-      "customer_car_type": null,
-      "customer_car_color": null,
-      "customer_license_plate": null,
-      "customer_rating_value": null,
-      "customer_rating_value_string": "",
-      "customer_rating_comments": null,
-      "pickup_window": "2020-03-22T16:46:41.704Z/2020-03-22T17:46:41.704Z",
-      "push_token": null
-    }
-  ],
-  "pages": {
-    "current": 1,
-    "count": 1,
-    "per": 50
-  }
+  "data": {
+    "type": "order",
+    "order_id": 1,
+    "order_state": "created",
+    "redemption_url": "https://flybuy.radiusnetworks.com/m/o?r=TFPQUVAXA5",
+    "id": 1,
+    "arrived_at": null,
+    "customer_state": "created",
+    "eta_at": null,
+    "partner_identifier": "123XYZ",
+    "state": "created",
+    "redemption_code": "TFPQUVAXA5",
+    "created_at": "2020-04-24T19:19:45.000Z",
+    "updated_at": "2020-04-24T19:19:45.000Z",
+    "area_name": null,
+    "customer_id": null,
+    "site_id": 1,
+    "site_partner_identifier": "site1",
+    "customer_name": "William Adama",
+    "customer_car_type": null,
+    "customer_car_color": null,
+    "customer_license_plate": null,
+    "customer_rating_value": null,
+    "customer_rating_value_string": "",
+    "customer_rating_comments": null,
+    "pickup_window": "2019-03-25T17:57:34.603Z/2019-03-25T17:57:34.603Z",
+    "pickup_type": null,
+    "push_token": null,
+    "tag_ids": [
+
+    ]
+  },
+  "included": [
+
+  ]
 }
 ```
 
-### <span id="getting-a-list-of-all-orders-curl-example">Curl Example</span>
+### <span id="create-an-order-curl-example">Curl Example</span>
 
 ```sh
 curl https://flybuy.radiusnetworks.com/api/v1/orders \
   -is \
-  -X GET \
+  -X POST \
   -H 'Accept: application/json' \
   -H 'Content-Type: application/json' \
-  -H 'Authorization: Token token = "0123456789abcdef"'
+  -H 'Authorization: Token token="0123456789abcdef"' \
+  -d '{
+    "data": {
+      "site_id": 1,
+      "partner_identifier": "123XYZ",
+      "customer_name": "William Adama",
+      "pickup_window": "2019-03-25T17:57:34.603Z"
+    }
+  }'
 ```
 
-## <span id="getting-orders-with-a-given-partner-identifier">Getting Orders With A Given Partner Identifier</span>
+## <span id="create-an-order-with-tags">Create An Order With Tags</span>
 
 ```http
-GET /api/v1/orders?partner_identifier=12345
+POST /api/v1/orders?include=tags
 ```
 
-### <span id="getting-orders-with-a-given-partner-identifier-response">Response</span>
+Tags allow UI customization in the FlyBuy dashboard.
+For example, if an order is created with a tag called `fries`, FlyBuy can associate that tag with an image of fries to provide a visual cue to the staff that a particular order contains fries.
+
+### <span id="create-an-order-with-tags-response">Response</span>
 
 ```http
-Status: 200 OK
+Status: 201 Created
 Content-Type: application/json; charset=utf-8
 ```
 ```json
 {
-  "data": [
+  "data": {
+    "type": "order",
+    "order_id": 1,
+    "order_state": "created",
+    "redemption_url": "https://flybuy.radiusnetworks.com/m/o?r=TFPQUVAXA5",
+    "id": 1,
+    "arrived_at": null,
+    "customer_state": "created",
+    "eta_at": null,
+    "partner_identifier": "123XYZ",
+    "state": "created",
+    "redemption_code": "TFPQUVAXA5",
+    "created_at": "2020-04-24T19:19:45.000Z",
+    "updated_at": "2020-04-24T19:19:45.000Z",
+    "area_name": null,
+    "customer_id": null,
+    "site_id": 1,
+    "site_partner_identifier": "site1",
+    "customer_name": "William Adama",
+    "customer_car_type": null,
+    "customer_car_color": null,
+    "customer_license_plate": null,
+    "customer_rating_value": null,
+    "customer_rating_value_string": "",
+    "customer_rating_comments": null,
+    "pickup_window": "2019-03-25T17:57:34.603Z/2019-03-25T17:57:34.603Z",
+    "pickup_type": null,
+    "push_token": null,
+    "tag_ids": [
+      1
+    ]
+  },
+  "included": [
     {
-      "type": "order",
-      "order_id": 1,
-      "order_state": "created",
-      "redemption_url": "https://flybuy.radiusnetworks.com/m/o?r=EXACCT",
+      "type": "tag",
       "id": 1,
-      "arrived_at": null,
-      "customer_state": "created",
-      "eta_at": null,
-      "partner_identifier": "12345",
-      "state": "created",
-      "redemption_code": "EXACCT",
-      "created_at": "2020-03-22T18:46:41.893Z",
-      "updated_at": "2020-03-22T18:46:41.893Z",
-      "area_name": null,
-      "customer_id": null,
-      "site_id": 1,
-      "site_partner_identifier": "site1",
-      "customer_name": null,
-      "customer_car_type": null,
-      "customer_car_color": null,
-      "customer_license_plate": null,
-      "customer_rating_value": null,
-      "customer_rating_value_string": "",
-      "customer_rating_comments": null,
-      "pickup_window": "2020-03-22T16:46:41.891Z/2020-03-22T17:46:41.891Z",
-      "push_token": null
+      "name": "Fries"
     }
-  ],
-  "pages": {
-    "current": 1,
-    "count": 1,
-    "per": 50
-  }
+  ]
 }
 ```
 
-### <span id="getting-orders-with-a-given-partner-identifier-curl-example">Curl Example</span>
+### <span id="create-an-order-with-tags-curl-example">Curl Example</span>
 
 ```sh
-curl https://flybuy.radiusnetworks.com/api/v1/orders?partner_identifier=12345 \
+curl https://flybuy.radiusnetworks.com/api/v1/orders?include=tags \
   -is \
-  -X GET \
+  -X POST \
   -H 'Accept: application/json' \
   -H 'Content-Type: application/json' \
-  -H 'Authorization: Token token = "0123456789abcdef"'
+  -H 'Authorization: Token token="0123456789abcdef"' \
+  -d '{
+    "data": {
+      "site_id": 1,
+      "partner_identifier": "123XYZ",
+      "customer_name": "William Adama",
+      "pickup_window": "2019-03-25T17:57:34.603Z"
+    },
+    "metadata": {
+      "taggable_keywords": [
+        "fries"
+      ]
+    }
+  }'
 ```
 
-## <span id="getting-an-order">Getting An Order</span>
+## <span id="get-an-order-with-a-flybuy-order-identifer">Get An Order With A FlyBuy Order Identifer</span>
 
 ```http
-GET /api/v1/orders/1
+GET /api/v1/orders/1?include=site,tags
 ```
 
-### <span id="getting-an-order-response">Response</span>
+Orders can be fetched with a FlyBuy order identifer (1 in the example above).
+This unique value is returned as order_id when creating an order via the API.
+
+If you would like to view site or tag information for the order, add `include=site,tags` in the query parameters.
+
+### <span id="get-an-order-with-a-flybuy-order-identifer-response">Response</span>
 
 ```http
 Status: 200 OK
@@ -188,16 +238,16 @@ Content-Type: application/json; charset=utf-8
     "type": "order",
     "order_id": 1,
     "order_state": "created",
-    "redemption_url": "https://flybuy.radiusnetworks.com/m/o?r=H8PUYP",
+    "redemption_url": "https://flybuy.radiusnetworks.com/m/o?r=TFPQUVAXA5",
     "id": 1,
     "arrived_at": null,
     "customer_state": "created",
     "eta_at": null,
     "partner_identifier": null,
     "state": "created",
-    "redemption_code": "H8PUYP",
-    "created_at": "2020-03-22T18:46:41.999Z",
-    "updated_at": "2020-03-22T18:46:41.999Z",
+    "redemption_code": "TFPQUVAXA5",
+    "created_at": "2020-04-24T19:19:45.000Z",
+    "updated_at": "2020-04-24T19:19:45.000Z",
     "area_name": null,
     "customer_id": null,
     "site_id": 1,
@@ -209,8 +259,12 @@ Content-Type: application/json; charset=utf-8
     "customer_rating_value": null,
     "customer_rating_value_string": "",
     "customer_rating_comments": null,
-    "pickup_window": "2020-03-22T16:46:41.997Z/2020-03-22T17:46:41.997Z",
-    "push_token": null
+    "pickup_window": "2020-04-24T17:19:45.000Z/2020-04-24T18:19:45.000Z",
+    "pickup_type": null,
+    "push_token": null,
+    "tag_ids": [
+      1
+    ]
   },
   "included": [
     {
@@ -229,153 +283,187 @@ Content-Type: application/json; charset=utf-8
       "instructions": null,
       "description": null,
       "phone": "555-367-8309"
+    },
+    {
+      "type": "tag",
+      "id": 1,
+      "name": "Fries"
     }
   ]
 }
 ```
 
-### <span id="getting-an-order-curl-example">Curl Example</span>
+### <span id="get-an-order-with-a-flybuy-order-identifer-curl-example">Curl Example</span>
 
 ```sh
-curl https://flybuy.radiusnetworks.com/api/v1/orders/1?include=site \
+curl https://flybuy.radiusnetworks.com/api/v1/orders/1?include=site,tags \
   -is \
   -X GET \
   -H 'Accept: application/json' \
   -H 'Content-Type: application/json' \
-  -H 'Authorization: Token token = "0123456789abcdef"'
+  -H 'Authorization: Token token="0123456789abcdef"'
 ```
 
-## <span id="creating-an-order">Creating An Order</span>
+## <span id="get-an-order-with-a-partner-order-identifier">Get An Order With A Partner Order Identifier</span>
 
 ```http
-POST /api/v1/orders
+GET /api/v1/orders?partner_identifier=12345
 ```
 
-### <span id="creating-an-order-parameters">Parameters</span>
+Orders can be fetched with a partner order identifier (12345 in the example above).
+This value can be optionally passed in as partner_identifier when creating an order via the API.
 
-**Must** be sent under a top-level `data` parameter.
+FlyBuy does not guarantee uniqueness for a partner order identifier.
+For a unique identifier, use the FlyBuy order identifier (order_id) instead.
 
-| **Name** | **Type** | **Description** |
-| -------- | -------- | --------------- |
-| `site_id` | `integer` | **Required.** Must reference a site in a project you have access to. |
-| `customer_name` | `string` | _Optional._ The customer's name |
-| `customer_token` | `string` | _Optional._ If given a customer token the order will be linked with their account, otherwise the customer will be required to redeem the order via a link supplied by the system. |
-| `customer_phone` | `string` | _Optional._ The customer's phone number. |
-| `customer_car_color` | `string` | _Optional._ The color of the customer's car. |
-| `customer_car_type` | `string` | _Optional._ The customer's car type |
-| `customer_license_plate` | `string` | _Optional._ The customer's license plate |
-| `partner_identifier` | `string` | _Optional._ An identifier used to track this order in another system. |
-| `push_token` | `string` | _Optional._ A token used to send push notifications to the user's mobile device |
-| `pickup_window` | `string` | _Optional._ When the order should be picked up. It can either be a date/time in [ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601), or a [date/time interval](https://en.wikipedia.org/wiki/ISO_8601#Time_intervals) of the format `"start/end"` |
-
-### <span id="creating-an-order-example">Example</span>
-
-```json
-{
-  "data": {
-    "site_id": 1,
-    "partner_identifier": "123XYZ",
-    "customer_name": "William Adama",
-    "pickup_window": "2019-03-25T17:57:34.603Z"
-  }
-}
-```
-
-### <span id="creating-an-order-response">Response</span>
+### <span id="get-an-order-with-a-partner-order-identifier-response">Response</span>
 
 ```http
-Status: 201 Created
+Status: 200 OK
 Content-Type: application/json; charset=utf-8
 ```
 ```json
 {
-  "data": {
-    "type": "order",
-    "order_id": 1,
-    "order_state": "created",
-    "redemption_url": "https://flybuy.radiusnetworks.com/m/o?r=2YCKLS",
-    "id": 1,
-    "arrived_at": null,
-    "customer_state": "created",
-    "eta_at": null,
-    "partner_identifier": "123XYZ",
-    "state": "created",
-    "redemption_code": "2YCKLS",
-    "created_at": "2020-03-22T18:46:42.143Z",
-    "updated_at": "2020-03-22T18:46:42.143Z",
-    "area_name": null,
-    "customer_id": null,
-    "site_id": 1,
-    "site_partner_identifier": "site1",
-    "customer_name": "William Adama",
-    "customer_car_type": null,
-    "customer_car_color": null,
-    "customer_license_plate": null,
-    "customer_rating_value": null,
-    "customer_rating_value_string": "",
-    "customer_rating_comments": null,
-    "pickup_window": "2019-03-25T17:57:34.603Z/2019-03-25T17:57:34.603Z",
-    "push_token": null
-  },
-  "included": [
+  "data": [
+    {
+      "type": "order",
+      "order_id": 1,
+      "order_state": "created",
+      "redemption_url": "https://flybuy.radiusnetworks.com/m/o?r=TFPQUVAXA5",
+      "id": 1,
+      "arrived_at": null,
+      "customer_state": "created",
+      "eta_at": null,
+      "partner_identifier": "12345",
+      "state": "created",
+      "redemption_code": "TFPQUVAXA5",
+      "created_at": "2020-04-24T19:19:45.000Z",
+      "updated_at": "2020-04-24T19:19:45.000Z",
+      "area_name": null,
+      "customer_id": null,
+      "site_id": 1,
+      "site_partner_identifier": "site1",
+      "customer_name": null,
+      "customer_car_type": null,
+      "customer_car_color": null,
+      "customer_license_plate": null,
+      "customer_rating_value": null,
+      "customer_rating_value_string": "",
+      "customer_rating_comments": null,
+      "pickup_window": "2020-04-24T17:19:45.000Z/2020-04-24T18:19:45.000Z",
+      "pickup_type": null,
+      "push_token": null,
+      "tag_ids": [
 
-  ]
+      ]
+    }
+  ],
+  "pages": {
+    "current": 1,
+    "count": 1,
+    "per": 50
+  }
 }
 ```
 
-### <span id="creating-an-order-curl-example">Curl Example</span>
+### <span id="get-an-order-with-a-partner-order-identifier-curl-example">Curl Example</span>
+
+```sh
+curl https://flybuy.radiusnetworks.com/api/v1/orders?partner_identifier=12345 \
+  -is \
+  -X GET \
+  -H 'Accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -H 'Authorization: Token token="0123456789abcdef"'
+```
+
+## <span id="get-a-list-of-all-orders">Get A List Of All Orders</span>
+
+```http
+GET /api/v1/orders
+```
+
+This returns a paginated response of all orders that the owner of the API key has access to.
+Typically, this spans multiple projects and sites.
+
+### <span id="get-a-list-of-all-orders-parameters">Parameters</span>
+
+
+
+| **Name** | **Type** | **Description** |
+| -------- | -------- | --------------- |
+| `partner_identifier` | `string` | _Optional._ If given, the API returns only orders with a `partner_identifier` that matches the provided value. |
+| `page` | `integer` | _Optional._ Allows retrieving a specific page of the results. Defaults to 1. |
+| `per` | `integer` | _Optional._ Specifies how many orders should be included in a page of results. Defaults to 50. |
+
+### <span id="get-a-list-of-all-orders-response">Response</span>
+
+```http
+Status: 200 OK
+Content-Type: application/json; charset=utf-8
+```
+```json
+{
+  "data": [
+    {
+      "type": "order",
+      "order_id": 1,
+      "order_state": "created",
+      "redemption_url": "https://flybuy.radiusnetworks.com/m/o?r=TFPQUVAXA5",
+      "id": 1,
+      "arrived_at": null,
+      "customer_state": "created",
+      "eta_at": null,
+      "partner_identifier": null,
+      "state": "created",
+      "redemption_code": "TFPQUVAXA5",
+      "created_at": "2020-04-24T19:19:45.000Z",
+      "updated_at": "2020-04-24T19:19:45.000Z",
+      "area_name": null,
+      "customer_id": null,
+      "site_id": 1,
+      "site_partner_identifier": "site1",
+      "customer_name": null,
+      "customer_car_type": null,
+      "customer_car_color": null,
+      "customer_license_plate": null,
+      "customer_rating_value": null,
+      "customer_rating_value_string": "",
+      "customer_rating_comments": null,
+      "pickup_window": "2020-04-24T17:19:45.000Z/2020-04-24T18:19:45.000Z",
+      "pickup_type": null,
+      "push_token": null,
+      "tag_ids": [
+
+      ]
+    }
+  ],
+  "pages": {
+    "current": 1,
+    "count": 1,
+    "per": 50
+  }
+}
+```
+
+### <span id="get-a-list-of-all-orders-curl-example">Curl Example</span>
 
 ```sh
 curl https://flybuy.radiusnetworks.com/api/v1/orders \
   -is \
-  -X POST \
+  -X GET \
   -H 'Accept: application/json' \
   -H 'Content-Type: application/json' \
-  -H 'Authorization: Token token = "0123456789abcdef"' \
-  -d '{
-    "data": {
-      "site_id": 1,
-      "partner_identifier": "123XYZ",
-      "customer_name": "William Adama",
-      "pickup_window": "2019-03-25T17:57:34.603Z"
-    }
-  }'
+  -H 'Authorization: Token token="0123456789abcdef"'
 ```
 
-## <span id="updating-an-order">Updating An Order</span>
+## <span id="update-an-order">Update An Order</span>
 
 ```http
 PUT /api/v1/orders/1
 ```
 
-### <span id="updating-an-order-parameters">Parameters</span>
-
-**Must** be sent under a top-level `data` parameter.
-
-| **Name** | **Type** | **Description** |
-| -------- | -------- | --------------- |
-| `site_id` | `integer` | **Required.** Must reference a site in a project you have access to. |
-| `customer_name` | `string` | _Optional._ The customer's name |
-| `customer_phone` | `string` | _Optional._ The customer's phone number. |
-| `customer_car_color` | `string` | _Optional._ The color of the customer's car. |
-| `customer_car_type` | `string` | _Optional._ The customer's car type |
-| `customer_license_plate` | `string` | _Optional._ The customer's license plate |
-| `partner_identifier` | `string` | _Optional._ An identifier used to track this order in another system. |
-| `push_token` | `string` | _Optional._ A token used to send push notifications to the user's mobile device |
-| `pickup_window` | `string` | _Optional._ When the order should be picked up. It can either be a date/time in [ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601), or a [date/time interval](https://en.wikipedia.org/wiki/ISO_8601#Time_intervals) of the format `"start/end"` |
-
-### <span id="updating-an-order-example">Example</span>
-
-```json
-{
-  "data": {
-    "site_id": 1,
-    "pickup_window": "2020-03-22T16:46:42.214Z/2020-03-22T17:46:42.214Z"
-  }
-}
-```
-
-### <span id="updating-an-order-response">Response</span>
+### <span id="update-an-order-response">Response</span>
 
 ```http
 Status: 200 OK
@@ -387,16 +475,16 @@ Content-Type: application/json; charset=utf-8
     "type": "order",
     "order_id": 1,
     "order_state": "created",
-    "redemption_url": "https://flybuy.radiusnetworks.com/m/o?r=JJSSES",
+    "redemption_url": "https://flybuy.radiusnetworks.com/m/o?r=TFPQUVAXA5",
     "id": 1,
     "arrived_at": null,
     "customer_state": "created",
     "eta_at": null,
     "partner_identifier": null,
     "state": "created",
-    "redemption_code": "JJSSES",
-    "created_at": "2020-03-22T18:46:42.254Z",
-    "updated_at": "2020-03-22T18:46:42.267Z",
+    "redemption_code": "TFPQUVAXA5",
+    "created_at": "2020-04-24T19:19:45.000Z",
+    "updated_at": "2020-04-24T19:19:45.000Z",
     "area_name": null,
     "customer_id": null,
     "site_id": 1,
@@ -408,8 +496,12 @@ Content-Type: application/json; charset=utf-8
     "customer_rating_value": null,
     "customer_rating_value_string": "",
     "customer_rating_comments": null,
-    "pickup_window": "2020-03-22T16:46:42.214Z/2020-03-22T17:46:42.214Z",
-    "push_token": null
+    "pickup_window": "2020-04-24T17:19:45.000Z/2020-04-24T18:19:45.000Z",
+    "pickup_type": null,
+    "push_token": null,
+    "tag_ids": [
+
+    ]
   },
   "included": [
 
@@ -417,7 +509,7 @@ Content-Type: application/json; charset=utf-8
 }
 ```
 
-### <span id="updating-an-order-curl-example">Curl Example</span>
+### <span id="update-an-order-curl-example">Curl Example</span>
 
 ```sh
 curl https://flybuy.radiusnetworks.com/api/v1/orders/1 \
@@ -425,11 +517,11 @@ curl https://flybuy.radiusnetworks.com/api/v1/orders/1 \
   -X PUT \
   -H 'Accept: application/json' \
   -H 'Content-Type: application/json' \
-  -H 'Authorization: Token token = "0123456789abcdef"' \
+  -H 'Authorization: Token token="0123456789abcdef"' \
   -d '{
     "data": {
       "site_id": 1,
-      "pickup_window": "2020-03-22T16:46:42.214Z/2020-03-22T17:46:42.214Z"
+      "pickup_window": "2020-04-24T17:19:45.000Z/2020-04-24T18:19:45.000Z"
     }
   }'
 ```

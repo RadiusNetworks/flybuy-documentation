@@ -1,5 +1,6 @@
-# Order Events API
+# Events API
 
+- [API Specs](#api-specs)
 - [Adding A State Change Event](#adding-a-state-change-event)
 - [Adding A Location Update Event](#adding-a-location-update-event)
 - [Adding A Customer Rating Event](#adding-a-customer-rating-event)
@@ -8,27 +9,31 @@
 This describes the FlyBuy Events API v1. If you have any problems or
 requests please contact [support](https://support.radiusnetworks.com).
 
-## Headers <a href="#headers" id="headers" class="headerlink"></a>
+## <span id="api-specs">API Specs</span>
 
-The API Key is passed via the Authorization header:
+Example curl commands can also be found at the end of each respective section.
+
+### Hostname
+
+Use this hostname with the HTTP protocol specified in each section to get the full API URL.
 
 ```http
-Authorization: Token token="secret"
+https://flybuy.radiusnetworks.com
 ```
 
-The API Key is associated with your account and has access to all the resources
-associated with your account. Account specific API keys have different
-permissions than the web login users that can interact with the dashboard, and
-the access may be different.
+### Headers
 
-If you do not have an API key, [you can create one here](https://account.radiusnetworks.com/personal_tokens).
-
-### Content Type <a href="#content-type" id="content-type" class="headerlink"></a>
-The content type is `application/json` and should be set in the `Content-Type`
-header:
 ```http
+Accept: application/json
 Content-Type: application/json
+Authorization: Token token="api-token"
 ```
+
+The API token is a 48-character key associated with your account that allows access to all resources under that account.
+Create and manage API tokens [here](https://account.radiusnetworks.com/personal_tokens).
+
+The API token is different from webhook and SDK tokens. If you require a webhook or SDK token, please reach out to your FlyBuy customer success representative.
+
 
 ## <span id="adding-a-state-change-event">Adding A State Change Event</span>
 
