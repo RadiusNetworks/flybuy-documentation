@@ -17,6 +17,7 @@ pickup and staff tooling with other systems.
 - [iOS SDK][11]
 - [Orders API][12] - Create, update, and view FlyBuy orders
 - [Order Events API][13] - Update FlyBuy orders by creating an order  event
+- [Archived Orders API][18] - Get order details that have been stripped of customer-sensitive information
 - [FlyBuy Webhooks][14] - Subscribe to FlyBuy webhooks to receive event-driven
   updates about your orders
 - [White-Label Domains][15]
@@ -65,3 +66,4 @@ of service][5]
 [15]: doc/white-label-domains.md
 [16]: doc/custom-partner-integrations.md
 [17]: https://github.com/RadiusNetworks/flybuy-documentation/issues/new
+[18]: doc/api/v1/archived-orders.md
