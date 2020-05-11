@@ -12,9 +12,9 @@ The FlyBuy Orders API enables partners to create orders, fetch information about
 
 Must Do's:
 - To kick off the FlyBuy experience for a customer, an order must be created at minimum.
-- FlyBuy also requires an order to be in the `ready` state to start collecting location information from the customer.
-Once the order is ready, [send](doc/api/v1/events.md#adding-a-state-change-event) a `ready` state change for the order.
-If your system does not have a distinct `ready` state that would ever get sent, send FlyBuy the `ready` state change immediately after creating an order.
+- FlyBuy requires an order to be in the `ready` state to start collecting location information from the customer.
+  This can be done by creating an order with a `state` of `ready` or by creating an order with a `state` of `created` then
+  later on [sending](doc/api/v1/order-events.md#send-a-state-change-event) a `ready` state change for the order.
 
 ## <span id="api-specs">API Specs</span>
 
@@ -23,7 +23,7 @@ Example curl commands can also be found at the end of each respective section.
 
 ### Hostname
 
-Use this hostname with the HTTP protocol specified in each section to get the full API URL.
+Use this hostname with the path specified in each request to get the full API URL.
 
 ```http
 https://flybuy.radiusnetworks.com
@@ -56,8 +56,11 @@ When creating and updating orders, the body payload should be a JSON object. All
 | `customer_car_type` | `string` | _Optional._ The customer's car type (ex: Toyota Camry). |
 | `customer_license_plate` | `string` | _Optional._ The customer's license plate. |
 | `partner_identifier` | `string` | _Optional._ An identifier used to track this order in another system. If provided, an order can also be retrieved using this value. |
+| `partner_display_identifier` | `string` | _Optional._ Displayed in the "Order Number" slot of the staff dashboard instead of the `partner_identifier` if present. |
 | `push_token` | `string` | _Optional._ A token used to send push notifications to the user's mobile device. |
 | `pickup_window` | `string` | _Optional._ When the order should be picked up. It can either be a date/time in [ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601), or a [date/time interval](https://en.wikipedia.org/wiki/ISO_8601#Time_intervals) of the format `"start/end"`. |
+| `pickup_type` | `string` | _Optional._ The pickup type for the order ('curbside', 'pickup', 'delivery', 'dispatch'). |
+| `state` | `string` | _Optional._ The initial order state ('created', 'ready', 'delayed', 'cancelled', or 'completed'). This can only be used when creating the order. |
 | `metadata.taggable_keywords` | `string` | _Optional._ If matching tags are found, they will be applied to the order. |
 
 
@@ -66,6 +69,18 @@ When creating and updating orders, the body payload should be a JSON object. All
 ```http
 POST /api/v1/orders
 ```
+
+### Example
+```json
+{
+  "data": {
+    "site_id": 1,
+    "partner_identifier": "123XYZ",
+    "customer_name": "William Adama",
+    "pickup_window": "2019-03-25T17:57:34.603Z"
+  }
+}
+``` 
 
 ### <span id="create-an-order-response">Response</span>
 
@@ -85,6 +100,7 @@ Content-Type: application/json; charset=utf-8
     "customer_state": "created",
     "eta_at": null,
     "partner_identifier": "123XYZ",
+    "partner_display_identifier": null,
     "state": "created",
     "redemption_code": "TFPQUVAXA5",
     "created_at": "2020-04-24T19:19:45.000Z",
@@ -141,6 +157,23 @@ POST /api/v1/orders?include=tags
 Tags allow UI customization in the FlyBuy dashboard.
 For example, if an order is created with a tag called `fries`, FlyBuy can associate that tag with an image of fries to provide a visual cue to the staff that a particular order contains fries.
 
+### Example
+```json
+{
+  "data": {
+    "site_id": 1,
+    "partner_identifier": "123XYZ",
+    "customer_name": "William Adama",
+    "pickup_window": "2019-03-25T17:57:34.603Z"
+  },
+  "metadata": {
+    "taggable_keywords": [
+      "fries"
+    ]
+  }
+}
+```
+
 ### <span id="create-an-order-with-tags-response">Response</span>
 
 ```http
@@ -159,6 +192,7 @@ Content-Type: application/json; charset=utf-8
     "customer_state": "created",
     "eta_at": null,
     "partner_identifier": "123XYZ",
+    "partner_display_identifier": null,
     "state": "created",
     "redemption_code": "TFPQUVAXA5",
     "created_at": "2020-04-24T19:19:45.000Z",
@@ -244,6 +278,7 @@ Content-Type: application/json; charset=utf-8
     "customer_state": "created",
     "eta_at": null,
     "partner_identifier": null,
+    "partner_display_identifier": null,
     "state": "created",
     "redemption_code": "TFPQUVAXA5",
     "created_at": "2020-04-24T19:19:45.000Z",
@@ -282,7 +317,7 @@ Content-Type: application/json; charset=utf-8
       "longitude": "0.0",
       "instructions": null,
       "description": null,
-      "phone": "555-367-8309"
+      "phone": "+15553678309"
     },
     {
       "type": "tag",
@@ -335,6 +370,7 @@ Content-Type: application/json; charset=utf-8
       "customer_state": "created",
       "eta_at": null,
       "partner_identifier": "12345",
+      "partner_display_identifier": null,
       "state": "created",
       "redemption_code": "TFPQUVAXA5",
       "created_at": "2020-04-24T19:19:45.000Z",
@@ -384,7 +420,7 @@ GET /api/v1/orders
 ```
 
 This returns a paginated response of all orders that the owner of the API key has access to.
-Typically, this spans multiple projects and sites.
+This can span multiple projects and sites.
 
 ### <span id="get-a-list-of-all-orders-parameters">Parameters</span>
 
@@ -415,6 +451,7 @@ Content-Type: application/json; charset=utf-8
       "customer_state": "created",
       "eta_at": null,
       "partner_identifier": null,
+      "partner_display_identifier": null,
       "state": "created",
       "redemption_code": "TFPQUVAXA5",
       "created_at": "2020-04-24T19:19:45.000Z",
@@ -463,6 +500,16 @@ curl https://flybuy.radiusnetworks.com/api/v1/orders \
 PUT /api/v1/orders/1
 ```
 
+### Example
+```json
+{
+  "data": {
+    "site_id": 1,
+    "pickup_window": "2020-04-24T17:19:45.000Z/2020-04-24T18:19:45.000Z"
+  }
+}
+``` 
+
 ### <span id="update-an-order-response">Response</span>
 
 ```http
@@ -481,6 +528,7 @@ Content-Type: application/json; charset=utf-8
     "customer_state": "created",
     "eta_at": null,
     "partner_identifier": null,
+    "partner_display_identifier": null,
     "state": "created",
     "redemption_code": "TFPQUVAXA5",
     "created_at": "2020-04-24T19:19:45.000Z",
