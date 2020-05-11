@@ -3,7 +3,7 @@
 #   --start=<start_time> \
 #   --end=<end_time> \
 #   --token=<api_token> \
-#   --pefix=<file_prefix>
+#   --prefix=<file_prefix>
 
 import json, requests, sys, csv, getopt
 
