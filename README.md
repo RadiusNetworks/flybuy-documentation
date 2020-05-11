@@ -62,10 +62,10 @@ of service][5]
 [10]: https://github.com/RadiusNetworks/flybuy-android
 [11]: https://github.com/RadiusNetworks/flybuy-ios
 [12]: doc/api/v1/orders.md
-[13]: doc/api/v1/events.md
+[13]: doc/api/v1/order-events.md
 [14]: doc/webhooks.md
 [15]: doc/white-label-domains.md
 [16]: doc/custom-partner-integrations.md
 [17]: https://github.com/RadiusNetworks/flybuy-documentation/issues/new
-[18]: doc/api/v1/archived-orders.md
+[18]: doc/api/v1/reporting.md
 [19]: doc/api/v1/sites.md
