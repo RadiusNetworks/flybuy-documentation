@@ -62,8 +62,6 @@ Content-Type: application/json; charset=utf-8
 ```json
 {
   "data": [
-{
-  "data": [
     {
       "type": "site",
       "id": 1,
@@ -76,17 +74,10 @@ Content-Type: application/json; charset=utf-8
       "instructions": null,
       "description": null,
       "phone": "+15553678309",
-      "operational_status": "live",
+      "operational_status": "inactive",
       "project_id": 593363181,
       "project_name": "Any Project"
     }
-  ],
-  "pages": {
-    "current": 1,
-    "count": 1,
-    "per": 50
-  }
-}
   ],
   "pages": {
     "current": 1,
