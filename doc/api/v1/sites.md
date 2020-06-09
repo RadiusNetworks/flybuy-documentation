@@ -74,6 +74,7 @@ Content-Type: application/json; charset=utf-8
       "instructions": null,
       "description": null,
       "phone": "+15553678309",
+      "operational_status": "live",
       "project_id": 593363181,
       "project_name": "Any Project"
     }
