@@ -12,9 +12,6 @@ The FlyBuy Orders API enables partners to create orders, fetch information about
 
 Must Do's:
 - To kick off the FlyBuy experience for a customer, an order must be created at minimum.
-- FlyBuy requires an order to be in the `ready` state to start collecting location information from the customer.
-  This can be done by creating an order with a `state` of `ready` or by creating an order with a `state` of `created` then
-  later on [sending](doc/api/v1/order-events.md#send-a-state-change-event) a `ready` state change for the order.
 
 ## <span id="api-specs">API Specs</span>
 
@@ -56,7 +53,8 @@ When creating and updating orders, the body payload should be a JSON object. All
 | `customer_car_type` | `string` | _Optional._ The customer's car type (ex: Toyota Camry). |
 | `customer_license_plate` | `string` | _Optional._ The customer's license plate. |
 | `partner_identifier` | `string` | _Optional._ An identifier used to track this order in another system. If provided, an order can also be retrieved using this value. |
-| `partner_display_identifier` | `string` | _Optional._ Displayed in the "Order Number" slot of the staff dashboard instead of the `partner_identifier` if present. |
+| `partner_identifier_for_crew` | `string` | _Optional._ Displayed in the "Order Number" slot of the crew dashboard instead of the `partner_identifier` if present. |
+| `partner_identifier_for_customer` | `string` | _Optional._ Displayed as the "Order Number" in customer-facing UI instead of the `partner_identifier` if present. |
 | `push_token` | `string` | _Optional._ A token used to send push notifications to the user's mobile device. |
 | `pickup_window` | `string` | _Optional._ When the order should be picked up. It can either be a date/time in [ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601), or a [date/time interval](https://en.wikipedia.org/wiki/ISO_8601#Time_intervals) of the format `"start/end"`. |
 | `pickup_type` | `string` | _Optional._ The pickup type for the order ('curbside', 'pickup', 'delivery', 'dispatch'). |
@@ -101,6 +99,8 @@ Content-Type: application/json; charset=utf-8
     "eta_at": null,
     "partner_identifier": "123XYZ",
     "partner_display_identifier": null,
+    "partner_identifier_for_crew": null,
+    "partner_identifier_for_customer": null,
     "state": "created",
     "redemption_code": "TFPQUVAXA5",
     "created_at": "2020-04-24T19:19:45.000Z",
@@ -193,6 +193,8 @@ Content-Type: application/json; charset=utf-8
     "eta_at": null,
     "partner_identifier": "123XYZ",
     "partner_display_identifier": null,
+    "partner_identifier_for_crew": null,
+    "partner_identifier_for_customer": null,
     "state": "created",
     "redemption_code": "TFPQUVAXA5",
     "created_at": "2020-04-24T19:19:45.000Z",
@@ -279,6 +281,8 @@ Content-Type: application/json; charset=utf-8
     "eta_at": null,
     "partner_identifier": null,
     "partner_display_identifier": null,
+    "partner_identifier_for_crew": null,
+    "partner_identifier_for_customer": null,
     "state": "created",
     "redemption_code": "TFPQUVAXA5",
     "created_at": "2020-04-24T19:19:45.000Z",
@@ -371,6 +375,8 @@ Content-Type: application/json; charset=utf-8
       "eta_at": null,
       "partner_identifier": "12345",
       "partner_display_identifier": null,
+      "partner_identifier_for_crew": null,
+      "partner_identifier_for_customer": null,
       "state": "created",
       "redemption_code": "TFPQUVAXA5",
       "created_at": "2020-04-24T19:19:45.000Z",
@@ -452,6 +458,8 @@ Content-Type: application/json; charset=utf-8
       "eta_at": null,
       "partner_identifier": null,
       "partner_display_identifier": null,
+      "partner_identifier_for_crew": null,
+      "partner_identifier_for_customer": null,
       "state": "created",
       "redemption_code": "TFPQUVAXA5",
       "created_at": "2020-04-24T19:19:45.000Z",
@@ -529,6 +537,8 @@ Content-Type: application/json; charset=utf-8
     "eta_at": null,
     "partner_identifier": null,
     "partner_display_identifier": null,
+    "partner_identifier_for_crew": null,
+    "partner_identifier_for_customer": null,
     "state": "created",
     "redemption_code": "TFPQUVAXA5",
     "created_at": "2020-04-24T19:19:45.000Z",
