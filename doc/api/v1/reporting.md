@@ -155,5 +155,5 @@ If `location_started_at` is not null, the order received location updates.
 
 ### Is there a script I can run that will generate an export?
 
-Use [this](doc/api/v1/examples/reporting-orders.py) sample Python script to generate a CSV file.
+Use [this](https://github.com/RadiusNetworks/flybuy-documentation/blob/master/doc/api/v1/examples/reporting-orders.py) sample Python script to generate a CSV file.
 
