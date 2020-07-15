@@ -3,6 +3,7 @@
 - [API Specs](#api-specs)
 - [Get A List Of All Archived Orders](#get-a-list-of-all-archived-orders)
 - [FAQ](#faq)
+- [Key Mapping](#key-mapping)
 
 The FlyBuy Reporting API enables partners to build custom analytics based on archived data.
 
@@ -76,6 +77,7 @@ Content-Type: application/json; charset=utf-8
       "archived_at": "2020-04-20T18:00:00.000Z",
       "arrived_at": null,
       "completed_at": null,
+      "expired_at": null,
       "location_permission": null,
       "location_started_at": null,
       "order_reminder_at": null,
@@ -147,13 +149,49 @@ If `redeemed_at` is not null, the order is redeemed.
 
 If `location_started_at` is not null, the order received location updates.
 
-### How do I know what platform the order was redeemed with?
-
-- Android: `sdk_platform = "android"`
-- iOS: `sdk_platform = "ios"`
-- Web: `redeemed_at is not null` & `app_authorization_id is null`
-
 ### Is there a script I can run that will generate an export?
 
 Use [this](https://github.com/RadiusNetworks/flybuy-documentation/blob/master/doc/api/v1/examples/reporting-orders.py) sample Python script to generate a CSV file.
 
+
+## <span id="key-mapping">Key Mapping</span>
+
+This is a list of all keys returned in the response.
+
+| **Name** | **Type** | **Description** |
+| -------- | -------- | --------------- |
+|  `type` | `string` | Always `"archived_order"` |
+|  `id` | `integer` | FlyBuy order identifier |
+|  `archived_at` | `timestamp` | Time order was archived |
+|  `arrived_at` | `timestamp` | Time user reached the `arrived` state |
+|  `completed_at` | `timestamp` | Time order was completed by staff or customer |
+|  `location_permission` | `string` | Possible values [`not_determined`, `restricted`, `denied`, `authorized`, `authorized_always`, `authorized_when_in_use`] |
+|  `location_started_at` | `timestamp` | Time user began sharing location |
+|  `order_reminder_at` | `timestamp` | Time order reminder message sent |
+|  `partner_identifier` | `string` | Partner-provided order identifier |
+|  `payment_method` | `string` | Method of payment used |
+|  `pickup_type` | `string` | Possible values [`null`, `curbside`, `pickup`, `delivery`, `dispatch`] |
+|  `pickup_window` | `range of timestamp` | Can be a pickup time or a pickup window with start and stop times |
+|  `postarrival_at` | `timestamp` | Time postarrival event occurred |
+|  `prearrival_at` | `timestamp` | Time prearrival event occurred |
+|  `project_name` | `string` | Brand name in FlyBuy |
+|  `redeemed_at` | `timestamp` | Time user redeemed the order (e.g., Tapped "I'm on my way" in the FlyBuy mobile app or web flow) |
+|  `sdk_platform` | `string` | Possible values [`android`, `ios`, `web`, `sms`] |
+|  `sdk_version` | `string` | iOS or Android SDK version |
+|  `site_name` | `string` | Site name in the FlyBuy merchant portal |
+|  `sms_delivered_timestamps` | `array of timestamps` | Time each SMS message was delivered |
+|  `sms_failed_timestamps` | `array of timestamps` | Time of each failed SMS message |
+|  `sms_undelivered_timestamps` | `array of timestamps` | Time of each undelivered SMS message |
+|  `starting_latitude` | `decimal` | Latitude of first location update |
+|  `starting_longitude` | `decimal` | Longitude of first location update |
+|  `timezone` | `string` | Time zone for site |
+|  `trip_distance_meters` | `integer` | Straight-line distance from first location update to site location |
+|  `viewed_timestamps` | `array of timestamps` | Times the order was viewed by clicking on the redemption URL |
+|  `wait_time_seconds` | `integer` | `completed_at` - `waiting_at` converted to seconds |
+|  `waiting_at` | `timestamp` | Time user entered a pickup area (or pressed "I'm Here") |
+|  `app_authorization_id` | `integer` | `1` = FlyBuy iOS app, `2` = FlyBuy Android app, other values for 3rd party apps |
+|  `customer_id` | `integer` | FlyBuy customer identifier |
+|  `project_id` | `integer` | FlyBuy project identifier |
+|  `site_id` | `integer` | FlyBuy site identifier |
+|  `created_at` | `timestamp` | Time order record was created |
+|  `updated_at` | `timestamp` | Time order record was last updated |
