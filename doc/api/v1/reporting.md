@@ -37,7 +37,7 @@ The API token is different from webhook and SDK tokens. If you require a webhook
 ## <span id="get-a-list-of-all-archived-orders">Get A List Of All Archived Orders</span>
 
 ```http
-GET /api/v1/archived_orders?end_time=2020-04-20T23:59:59Z&start_time=2020-04-20T00:00:00Z
+GET /api/v1/archived_orders?end_time=2020-08-03T23:59:59Z&start_time=2020-08-02T00:00:00Z
 ```
 
 This returns a paginated response of all archived orders that the owner of the API key has access to.
@@ -67,47 +67,64 @@ Content-Type: application/json; charset=utf-8
 ```json
 {
   "time_range": {
-    "start_time": "2020-04-20T00:00:00Z",
-    "end_time": "2020-04-20T23:59:59Z"
+    "start_time": "2020-08-02T00:00:00Z",
+    "end_time": "2020-08-03T23:59:59Z"
   },
   "data": [
     {
       "type": "archived_order",
       "id": 1,
-      "archived_at": "2020-04-20T18:00:00.000Z",
-      "arrived_at": null,
-      "completed_at": null,
+      "archived_at": "2020-08-02T00:00:01.840Z",
+      "arrived_at": "2020-08-01T23:55:21.383Z",
+      "completed_at": "2020-08-01T23:57:28.799Z",
+      "customer_rating_comments": "",
+      "customer_rating_value": 5,
+      "customer_state": "completed",
+      "eta_at": "2020-08-01T23:55:22.971Z",
       "expired_at": null,
-      "location_permission": null,
-      "location_started_at": null,
-      "order_reminder_at": null,
-      "partner_identifier": null,
+      "location_permission": "authorized",
+      "location_started_at": "2020-08-01T23:55:21.383Z",
+      "order_reminder_at": "2020-08-01T23:39:49.252Z",
+      "partner_identifier": "243483745",
+      "partner_identifier_for_crew": null,
+      "partner_identifier_for_customer": null,
       "payment_method": null,
-      "pickup_type": null,
-      "pickup_window": null,
+      "pickup_type": "curbside",
+      "pickup_window": "2020-08-01T23:47:00.000Z/2020-08-01T23:47:00.000Z",
       "postarrival_at": null,
-      "prearrival_at": null,
-      "project_name": null,
-      "redeemed_at": null,
-      "sdk_platform": null,
+      "prearrival_at": "2020-08-01T23:55:23.039Z",
+      "project_name": "Merchant Brand",
+      "redeemed_at": "2020-08-01T23:55:19.471Z",
+      "sdk_platform": "web",
       "sdk_version": null,
-      "site_name": null,
-      "sms_delivered_timestamps": null,
-      "sms_failed_timestamps": null,
-      "sms_undelivered_timestamps": null,
-      "starting_latitude": null,
-      "starting_longitude": null,
-      "timezone": null,
-      "trip_distance_meters": null,
-      "viewed_timestamps": null,
-      "wait_time_seconds": null,
-      "waiting_at": null,
+      "site_name": "Mt Juliet",
+      "site_operational_status": "live",
+      "site_partner_identifier": "2001",
+      "sms_delivered_timestamps": [
+        "2020-08-01T23:39:51.472Z"
+      ],
+      "sms_failed_timestamps": [
+
+      ],
+      "sms_undelivered_timestamps": [
+
+      ],
+      "starting_latitude": "36.173369",
+      "starting_longitude": "-86.494956",
+      "state": "completed",
+      "timezone": "America/Chicago",
+      "trip_distance_meters": 1532,
+      "viewed_timestamps": [
+        "2020-08-01T23:55:04.563Z"
+      ],
+      "wait_time_seconds": 126,
+      "waiting_at": "2020-08-01T23:55:22.971Z",
       "app_authorization_id": null,
-      "customer_id": null,
-      "project_id": null,
+      "customer_id": 1490348,
+      "project_id": 593363171,
       "site_id": 1,
-      "created_at": null,
-      "updated_at": "2020-04-24T19:19:45.000Z"
+      "created_at": "2020-08-01T23:39:49.172Z",
+      "updated_at": "2020-08-02T00:00:01.840Z"
     }
   ],
   "pages": {
@@ -121,7 +138,7 @@ Content-Type: application/json; charset=utf-8
 ### <span id="get-a-list-of-all-archived-orders-curl-example">Curl Example</span>
 
 ```sh
-curl https://flybuy.radiusnetworks.com/api/v1/archived_orders?end_time=2020-04-20T23:59:59Z&start_time=2020-04-20T00:00:00Z \
+curl https://flybuy.radiusnetworks.com/api/v1/archived_orders?end_time=2020-08-03T23:59:59Z&start_time=2020-08-02T00:00:00Z \
   -is \
   -X GET \
   -H 'Accept: application/json' \
@@ -165,10 +182,17 @@ This is a list of all keys returned in the response.
 |  `archived_at` | `timestamp` | Time order was archived |
 |  `arrived_at` | `timestamp` | Time user reached the `arrived` state |
 |  `completed_at` | `timestamp` | Time order was completed by staff or customer |
+|  `customer_rating_comments` | `string` | Comments submitted by customer |
+|  `customer_rating_value` | `integer` | Customer rating from 1 to 5 |
+|  `customer_state` | `string` | Last customer state, possible values [`created`, `enroute`, `nearby`, `arrived`, `waiting`, `completed`] |
+|  `eta_at` | `timestamp` | Last calculated ETA |
+|  `expired_at` | `timestamp` | Time order was auto-expired |
 |  `location_permission` | `string` | Possible values [`not_determined`, `restricted`, `denied`, `authorized`, `authorized_always`, `authorized_when_in_use`] |
 |  `location_started_at` | `timestamp` | Time user began sharing location |
 |  `order_reminder_at` | `timestamp` | Time order reminder message sent |
 |  `partner_identifier` | `string` | Partner-provided order identifier |
+|  `partner_identifier_for_crew` | `string` | Partner-provided order identifier for crew dashboard |
+|  `partner_identifier_for_customer` | `string` | Partner-provided order identifier for customer |
 |  `payment_method` | `string` | Method of payment used |
 |  `pickup_type` | `string` | Possible values [`null`, `curbside`, `pickup`, `delivery`, `dispatch`] |
 |  `pickup_window` | `range of timestamp` | Can be a pickup time or a pickup window with start and stop times |
@@ -179,11 +203,13 @@ This is a list of all keys returned in the response.
 |  `sdk_platform` | `string` | Possible values [`android`, `ios`, `web`, `sms`] |
 |  `sdk_version` | `string` | iOS or Android SDK version |
 |  `site_name` | `string` | Site name in the FlyBuy merchant portal |
+|  `site_operational_status` | `string` | Possible values: [`inactive`, `live`, `pilot`, `demo`] |
 |  `sms_delivered_timestamps` | `array of timestamps` | Time each SMS message was delivered |
 |  `sms_failed_timestamps` | `array of timestamps` | Time of each failed SMS message |
 |  `sms_undelivered_timestamps` | `array of timestamps` | Time of each undelivered SMS message |
 |  `starting_latitude` | `decimal` | Latitude of first location update |
 |  `starting_longitude` | `decimal` | Longitude of first location update |
+|  `state` | `string` | Possible values: [`created`, `ready`, `delayed`, `completed`].  Will be `completed` unless order was expired. |
 |  `timezone` | `string` | Time zone for site |
 |  `trip_distance_meters` | `integer` | Straight-line distance from first location update to site location |
 |  `viewed_timestamps` | `array of timestamps` | Times the order was viewed by clicking on the redemption URL |
