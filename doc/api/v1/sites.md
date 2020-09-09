@@ -41,7 +41,11 @@ GET /api/v1/sites
 This returns a paginated response of all sites that the owner of the API key has access to.
 This can span multiple projects and sites.
 
-Use the `pages.next` URL provided in the response body for the next page of results.      
+Use the `pages.next` URL provided in the response body for the next page of results.
+
+Premises coordinates are in [lng, lat] order.
+
+Overlay coordinates are provided as an object with keys "north", "south", "east", and "west" boundary values.
 
 ### <span id="get-a-list-of-all-sites-parameters">Parameters</span>
 
@@ -75,8 +79,45 @@ Content-Type: application/json; charset=utf-8
       "description": null,
       "phone": "+15553678309",
       "operational_status": "inactive",
-      "project_id": 593363181,
-      "project_name": "Any Project"
+      "project_id": 593363182,
+      "project_name": "Any Project",
+      "overlay_photo_url": "",
+      "overlay_photo_coordinates": {
+        "east": "-76.740725",
+        "west": "-76.74315",
+        "north": "34.72731111111111",
+        "south": "34.72478888888889"
+      },
+      "premises_coordinates": [
+        [
+          -77.06533670425422,
+          38.9035702931859
+        ],
+        [
+          -77.0648498833098,
+          38.9035702931879
+        ],
+        [
+          -77.064861953259,
+          38.903904261304
+        ],
+        [
+          -77.0642074942519,
+          38.9039053042427
+        ],
+        [
+          -77.0641967654221,
+          38.9043238051293
+        ],
+        [
+          -77.06537425518061,
+          38.90432797969651
+        ],
+        [
+          -77.06533670425422,
+          38.9035702931859
+        ]
+      ]
     }
   ],
   "pages": {
