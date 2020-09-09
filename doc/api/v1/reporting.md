@@ -194,7 +194,7 @@ This is a list of all keys returned in the response.
 |  `partner_identifier_for_crew` | `string` | Partner-provided order identifier for crew dashboard |
 |  `partner_identifier_for_customer` | `string` | Partner-provided order identifier for customer |
 |  `payment_method` | `string` | Method of payment used |
-|  `pickup_type` | `string` | Possible values [`null`, `curbside`, `pickup`, `delivery`, `dispatch`] |
+|  `pickup_type` | `string` | Possible values [`null`, `curbside`, `pickup`, `delivery`, `dispatch`, `drive_thru`] |
 |  `pickup_window` | `range of timestamp` | Can be a pickup time or a pickup window with start and stop times |
 |  `postarrival_at` | `timestamp` | Time postarrival event occurred |
 |  `prearrival_at` | `timestamp` | Time prearrival event occurred |
@@ -221,3 +221,5 @@ This is a list of all keys returned in the response.
 |  `site_id` | `integer` | FlyBuy site identifier |
 |  `created_at` | `timestamp` | Time order record was created |
 |  `updated_at` | `timestamp` | Time order record was last updated |
+
+

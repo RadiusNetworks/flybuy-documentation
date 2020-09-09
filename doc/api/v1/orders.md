@@ -49,6 +49,7 @@ When creating and updating orders, the body payload should be a JSON object. All
 | `customer_phone` | `string` | _Recommended._ The customer's phone number. The customer's phone number is required to initiate the FlyBuy experience. |
 | `customer_name` | `string` | _Optional._ The customer's name. |
 | `customer_token` | `string` | _Optional._ If given a customer token, FlyBuy will automatically associate the order with the customer's account. Otherwise, the customer will be required to redeem the order via a link supplied by the system. This can only be used when creating the order. |
+| `app_authorization_token` | `string` | _Optional._ If given an app authorization token, FlyBuy will automatically associate the order with the app which will allow it to send push notifications about this order to the app. |
 | `customer_car_color` | `string` | _Optional._ The color of the customer's car. |
 | `customer_car_type` | `string` | _Optional._ The customer's car type (ex: Toyota Camry). |
 | `customer_license_plate` | `string` | _Optional._ The customer's license plate. |
@@ -57,7 +58,7 @@ When creating and updating orders, the body payload should be a JSON object. All
 | `partner_identifier_for_customer` | `string` | _Optional._ Displayed as the "Order Number" in customer-facing UI instead of the `partner_identifier` if present. |
 | `push_token` | `string` | _Optional._ A token used to send push notifications to the user's mobile device. |
 | `pickup_window` | `string` | _Optional._ When the order should be picked up. It can either be a date/time in [ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601), or a [date/time interval](https://en.wikipedia.org/wiki/ISO_8601#Time_intervals) of the format `"start/end"`. |
-| `pickup_type` | `string` | _Optional._ The pickup type for the order ('curbside', 'pickup', 'delivery', 'dispatch'). |
+| `pickup_type` | `string` | _Optional._ The pickup type for the order ('curbside', 'pickup', 'delivery', 'dispatch', 'drive_thru'). |
 | `state` | `string` | _Optional._ The initial order state ('created', 'ready', 'delayed', 'cancelled', or 'completed'). This can only be used when creating the order. |
 | `metadata.taggable_keywords` | `string` | _Optional._ If matching tags are found, they will be applied to the order. |
 
@@ -78,7 +79,7 @@ POST /api/v1/orders
     "pickup_window": "2019-03-25T17:57:34.603Z"
   }
 }
-``` 
+```
 
 ### <span id="create-an-order-response">Response</span>
 
@@ -106,6 +107,7 @@ Content-Type: application/json; charset=utf-8
     "created_at": "2020-04-24T19:19:45.000Z",
     "updated_at": "2020-04-24T19:19:45.000Z",
     "area_name": null,
+    "possible_areas": null,
     "customer_id": null,
     "site_id": 1,
     "site_partner_identifier": "site1",
@@ -200,6 +202,7 @@ Content-Type: application/json; charset=utf-8
     "created_at": "2020-04-24T19:19:45.000Z",
     "updated_at": "2020-04-24T19:19:45.000Z",
     "area_name": null,
+    "possible_areas": null,
     "customer_id": null,
     "site_id": 1,
     "site_partner_identifier": "site1",
@@ -288,6 +291,7 @@ Content-Type: application/json; charset=utf-8
     "created_at": "2020-04-24T19:19:45.000Z",
     "updated_at": "2020-04-24T19:19:45.000Z",
     "area_name": null,
+    "possible_areas": null,
     "customer_id": null,
     "site_id": 1,
     "site_partner_identifier": "site1",
@@ -382,6 +386,7 @@ Content-Type: application/json; charset=utf-8
       "created_at": "2020-04-24T19:19:45.000Z",
       "updated_at": "2020-04-24T19:19:45.000Z",
       "area_name": null,
+      "possible_areas": null,
       "customer_id": null,
       "site_id": 1,
       "site_partner_identifier": "site1",
@@ -465,6 +470,7 @@ Content-Type: application/json; charset=utf-8
       "created_at": "2020-04-24T19:19:45.000Z",
       "updated_at": "2020-04-24T19:19:45.000Z",
       "area_name": null,
+      "possible_areas": null,
       "customer_id": null,
       "site_id": 1,
       "site_partner_identifier": "site1",
@@ -516,7 +522,7 @@ PUT /api/v1/orders/1
     "pickup_window": "2020-04-24T17:19:45.000Z/2020-04-24T18:19:45.000Z"
   }
 }
-``` 
+```
 
 ### <span id="update-an-order-response">Response</span>
 
@@ -544,6 +550,7 @@ Content-Type: application/json; charset=utf-8
     "created_at": "2020-04-24T19:19:45.000Z",
     "updated_at": "2020-04-24T19:19:45.000Z",
     "area_name": null,
+    "possible_areas": null,
     "customer_id": null,
     "site_id": 1,
     "site_partner_identifier": "site1",
