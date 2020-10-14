@@ -6,6 +6,7 @@
 - [Get An Order With A FlyBuy Order Identifer](#get-an-order-with-a-flybuy-order-identifer)
 - [Get An Order With A Partner Order Identifier](#get-an-order-with-a-partner-order-identifier)
 - [Get A List Of All Orders](#get-a-list-of-all-orders)
+- [Get A List Of A Orders For A Customer](#get-a-list-of-a-orders-for-a-customer)
 - [Update An Order](#update-an-order)
 
 The FlyBuy Orders API enables partners to create orders, fetch information about an order, and update order details.
@@ -501,6 +502,89 @@ Content-Type: application/json; charset=utf-8
 
 ```sh
 curl https://flybuy.radiusnetworks.com/api/v1/orders \
+  -is \
+  -X GET \
+  -H 'Accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -H 'Authorization: Token token="0123456789abcdef"'
+```
+
+## <span id="get-a-list-of-a-orders-for-a-customer">Get A List Of A Orders For A Customer</span>
+
+```http
+GET /api/v1/customers/1/orders
+```
+
+This returns a paginated response of all orders for a customer.
+
+### <span id="get-a-list-of-a-orders-for-a-customer-parameters">Parameters</span>
+
+
+
+| **Name** | **Type** | **Description** |
+| -------- | -------- | --------------- |
+| `partner_identifier` | `string` | _Optional._ If given, the API returns only orders with a `partner_identifier` that matches the provided value. |
+| `page` | `integer` | _Optional._ Allows retrieving a specific page of the results. Defaults to 1. |
+| `per` | `integer` | _Optional._ Specifies how many orders should be included in a page of results. Defaults to 50. |
+
+### <span id="get-a-list-of-a-orders-for-a-customer-response">Response</span>
+
+```http
+Status: 200 OK
+Content-Type: application/json; charset=utf-8
+```
+```json
+{
+  "data": [
+    {
+      "type": "order",
+      "order_id": 1,
+      "order_state": "created",
+      "redemption_url": "https://flybuy.radiusnetworks.com/m/o?r=TFPQUVAXA5",
+      "id": 1,
+      "arrived_at": null,
+      "customer_state": "created",
+      "eta_at": null,
+      "partner_identifier": null,
+      "partner_display_identifier": null,
+      "partner_identifier_for_crew": null,
+      "partner_identifier_for_customer": null,
+      "state": "created",
+      "redemption_code": "TFPQUVAXA5",
+      "created_at": "2020-04-24T19:19:45.000Z",
+      "updated_at": "2020-04-24T19:19:45.000Z",
+      "area_name": null,
+      "possible_areas": null,
+      "customer_id": 1,
+      "site_id": 1,
+      "site_partner_identifier": "site1",
+      "customer_name": "John Doe",
+      "customer_car_type": "Sedan",
+      "customer_car_color": "Blue",
+      "customer_license_plate": "ABC-123",
+      "customer_rating_value": null,
+      "customer_rating_value_string": "",
+      "customer_rating_comments": null,
+      "pickup_window": "2020-04-24T17:19:45.000Z/2020-04-24T18:19:45.000Z",
+      "pickup_type": null,
+      "push_token": null,
+      "tag_ids": [
+
+      ]
+    }
+  ],
+  "pages": {
+    "current": 1,
+    "count": 1,
+    "per": 50
+  }
+}
+```
+
+### <span id="get-a-list-of-a-orders-for-a-customer-curl-example">Curl Example</span>
+
+```sh
+curl https://flybuy.radiusnetworks.com/api/v1/customers/1/orders \
   -is \
   -X GET \
   -H 'Accept: application/json' \

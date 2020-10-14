@@ -16,9 +16,11 @@ pickup and staff tooling with other systems.
 - [Android SDK][10]
 - [iOS SDK][11]
 - [Orders API][12] - Create, update, and view FlyBuy orders
+- [Claim Orders API][20] - Fetch and claim orders via claim code
 - [Order Events API][13] - Update FlyBuy orders by creating an order  event
 - [Reporting API][18] - Get order details that have been stripped of customer-sensitive information
 - [Sites API][19] - Get site details
+- [Customers API][21] - Create, update, and view FlyBuy customers
 - [FlyBuy Webhooks][14] - Subscribe to FlyBuy webhooks to receive event-driven
   updates about your orders
 - [White-Label Domains][15]
@@ -69,3 +71,5 @@ of service][5]
 [17]: https://github.com/RadiusNetworks/flybuy-documentation/issues/new
 [18]: doc/api/v1/reporting.md
 [19]: doc/api/v1/sites.md
+[20]: doc/api/v1/claim_orders.md
+[21]: doc/api/v1/customers.md
